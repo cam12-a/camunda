@@ -1,0 +1,96 @@
+{
+  "type": "default",
+  "components": [
+    {
+      "key": "first_name",
+      "label": "Фамилия",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "last_name",
+      "label": "Имя",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "gender",
+      "label": "Пол",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "state",
+      "label": "Регион",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "country",
+      "label": "Страна",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "street",
+      "label": "Улица",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "age",
+      "label": "Возраст",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "tarif",
+      "label": "Тариф",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "city",
+      "label": "Город",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "streetNumber",
+      "label": "Номер улицы",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "button1",
+      "label": "Отправить",
+      "type": "button"
+    },
+    {
+      "key": "button2",
+      "label": "Отменить",
+      "type": "button",
+      "action": "reset"
+    }
+  ]
+}
