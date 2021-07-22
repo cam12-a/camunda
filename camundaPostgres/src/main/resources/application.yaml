@@ -1,0 +1,20 @@
+
+
+camunda.bpm.admin-user:
+  id: demo
+  password: demo
+
+camunda:
+  bpm:
+    database:
+      type: postgres
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/camunda
+    username: postgres
+    password: demo
+
+
+
