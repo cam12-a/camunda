@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_167kyll" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="GeneratePersonData" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0y9xe93</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0y9xe93" sourceRef="StartEvent_1" targetRef="Activity_17wvdv9" />
+    <bpmn:endEvent id="Event_0x31y6g">
+      <bpmn:incoming>Flow_1u2qo1f</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1u2qo1f" sourceRef="Activity_17wvdv9" targetRef="Event_0x31y6g" />
+    <bpmn:serviceTask id="Activity_17wvdv9" name="Запуск API по генерации Person" camunda:class="ru.delegates.RenderPerson">
+      <bpmn:incoming>Flow_0y9xe93</bpmn:incoming>
+      <bpmn:outgoing>Flow_1u2qo1f</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="GeneratePersonData">
+      <bpmndi:BPMNEdge id="Flow_1u2qo1f_di" bpmnElement="Flow_1u2qo1f">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="642" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0y9xe93_di" bpmnElement="Flow_0y9xe93">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0x31y6g_di" bpmnElement="Event_0x31y6g">
+        <dc:Bounds x="642" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hc74ow_di" bpmnElement="Activity_17wvdv9">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
