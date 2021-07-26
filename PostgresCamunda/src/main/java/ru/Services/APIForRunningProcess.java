@@ -16,7 +16,7 @@ public class APIForRunningProcess {
         RuntimeService runtimeService = processEngine.getRuntimeService();
         String id=runtimeService.startProcessInstanceByKey(processKey).getId();
         runtimeService.setVariables(id,variables);
-        System.out.println(id);
+       // System.out.println(id);
     }
 
 
