@@ -18,9 +18,8 @@ import static org.camunda.spin.Spin.S;
 
 @Service
 public class GetPerson  extends Person {
-    protected static final String  url="https://randomuser.me/api";
+    protected static final String  url= System.getenv("URLTOAPI");
     WebClient webClient = WebClient.create();
-
     private Person person;
 
     public Person GetPerson(){
@@ -50,6 +49,7 @@ public class GetPerson  extends Person {
     public  void ParsePersonData(String response) throws JsonProcessingException
     {
         Mapping person=JSON(response).mapTo(Mapping.class);
+
     }
 
 }

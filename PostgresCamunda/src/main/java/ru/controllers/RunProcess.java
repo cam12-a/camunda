@@ -27,7 +27,7 @@ public class RunProcess {
         for(int i=0;i<id;i++) {
             APIForRunningProcess TeamA = new APIForRunningProcess();
             TeamA.runProcesses("TeamA", setVariables());
-
+            
             APIForRunningProcess TeamB = new APIForRunningProcess();
             TeamB.runProcesses("TeamB", setVariables());
 
@@ -40,7 +40,7 @@ public class RunProcess {
         GetPerson getPerson = new GetPerson();
         Mapping  mapping= getPerson.PersonInfo();
 
-       //System.out.println(mapping.getResults()[0].getName().first);
+       System.out.println(mapping.getResults()[0].getName().first);
        getPerson.setFirst(mapping.getResults()[0].getName().first);
        getPerson.setLast(mapping.getResults()[0].getName().last);
        getPerson.setGender(mapping.getResults()[0].getGender());
@@ -52,12 +52,16 @@ public class RunProcess {
 
         return variables;
     }
-
     @GetMapping(value = "/camunda/rest-api/calc")
     public String GetAmountMenWomen(@RequestParam("team") String team)
     {
-        CountMenAndWomen countMenAndWomen=new CountMenAndWomen();
-        return countMenAndWomen.MenAndWomenAmount(team);
+        if( team.equals("TeamA") || team.equals("TeamB")) {
+            CountMenAndWomen countMenAndWomen = new CountMenAndWomen();
+            return countMenAndWomen.MenAndWomenAmount(team);
+        }
+        else
+            return "Неправильный ввод, доступны следующие значение TeamA и TeamB";
     }
+
 
 }
