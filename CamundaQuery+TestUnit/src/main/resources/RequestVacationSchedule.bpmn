@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0j27hqa" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="RequestVacationSchedule" name="RequestVacationSchedule" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="RequestVacationSchedule">
+      <bpmn:outgoing>Flow_144dp9f</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_144dp9f" sourceRef="StartEvent_1" targetRef="GenerateGUI" />
+    <bpmn:userTask id="createAPP" name="создать заявку" camunda:candidateUsers="petrov_initiator2, alseny_initiator1" camunda:candidateGroups="initiator">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="vacationStartDate" label="Дата начала отпуска" type="date" />
+          <camunda:formField id="vacationEndDate" label="Дата окончания отпуска" type="date" />
+          <camunda:formField id="vacationType" label="Тип отпуска" type="enum">
+            <camunda:value id="everyyear" name="Ежегодный оплачиваемый отпуск" />
+            <camunda:value id="vacationWithoutSalary" name=" отпуск без сохранения ЗП" />
+            <camunda:value id="vacationForMothers" name="отпуск по уходу за  ребенком" />
+          </camunda:formField>
+          <camunda:formField id="applicationGUI" label="Порядковый номер" type="string" />
+          <camunda:formField id="error" label="Проверка" type="string" />
+          <camunda:formField id="status" label="Статус" type="string" defaultValue="Создана" />
+        </camunda:formData>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="status">"На согласовании"</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1681o2s</bpmn:incoming>
+      <bpmn:incoming>Flow_0z6hubo</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ecmv6r</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="confirmation" name="на согласовании" camunda:assignee="nastya_manager" camunda:candidateGroups="managers">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="vacationStartDate" label="Дата начала отпуска" type="date" />
+          <camunda:formField id="vacationEndDate" label="Дата окончания отпуска" type="date" />
+          <camunda:formField id="vacationType" label="Тип отпуска" type="enum">
+            <camunda:value id="everyyear" name="Ежегодный оплачиваемый отпуск" />
+            <camunda:value id="vacationWithoutSalary" name=" отпуск без сохранения ЗП" />
+            <camunda:value id="vacationForMothers" name="отпуск по уходу за  ребенком" />
+          </camunda:formField>
+          <camunda:formField id="statusManager" label="Решение по заявке" type="enum">
+            <camunda:value id="refused" name="Отказана" />
+            <camunda:value id="accepted" name="Согласована" />
+          </camunda:formField>
+          <camunda:formField id="applicationGUI" label="Порядковый номер" type="string" />
+        </camunda:formData>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="status">н</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0r6jndn</bpmn:incoming>
+      <bpmn:outgoing>Flow_0fgm97j</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_0ddkh7s" default="Flow_1pci4xn">
+      <bpmn:incoming>Flow_0fgm97j</bpmn:incoming>
+      <bpmn:outgoing>Flow_1md57tj</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1pci4xn</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0fgm97j" sourceRef="confirmation" targetRef="Gateway_0ddkh7s" />
+    <bpmn:endEvent id="endRejected" name="endRejected">
+      <bpmn:incoming>Flow_04asecx</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="notify" name="Уведомление об отказе" camunda:candidateUsers="petrov_initiator2, alseny_initiator1">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="vacationStartDate" label="Дата начала отпуска" type="date" />
+          <camunda:formField id="vacationEndDate" label="Дата окончания отпуска" type="date" />
+          <camunda:formField id="vacationType" label="Тип отпуска" type="enum">
+            <camunda:value id="everyyear" name="Ежегодный" />
+            <camunda:value id="paidVacation" name="оплачиваемый отпуск" />
+            <camunda:value id="vacationWithoutSalary" name=" отпуск без сохранения ЗП" />
+            <camunda:value id="vacationForMothers" name="отпуск по уходу за  ребенком" />
+          </camunda:formField>
+          <camunda:formField id="statusManager" label="Решение по заявке" type="enum">
+            <camunda:value id="refused" name="Отказана" />
+            <camunda:value id="accepted" name="Согласована" />
+          </camunda:formField>
+          <camunda:formField id="message" label="Ответ по заявке" type="string" defaultValue="Ваша заявка была отклонена " />
+        </camunda:formData>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="status">Отказано</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1pci4xn</bpmn:incoming>
+      <bpmn:outgoing>Flow_0cz6y59</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0cz6y59" sourceRef="notify" targetRef="Activity_1x2omy2" />
+    <bpmn:sequenceFlow id="Flow_1md57tj" sourceRef="Gateway_0ddkh7s" targetRef="HR">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">statusManager=='accepted'</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="endAccepted" name="endAccepted">
+      <bpmn:incoming>Flow_040w7x7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="validateAPPData" name="Валидация данных" camunda:delegateExpression="${ValidateApplication}">
+      <bpmn:incoming>Flow_1ecmv6r</bpmn:incoming>
+      <bpmn:outgoing>Flow_0hw2n68</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1pci4xn" sourceRef="Gateway_0ddkh7s" targetRef="notify" />
+    <bpmn:sequenceFlow id="Flow_04asecx" sourceRef="Activity_1x2omy2" targetRef="endRejected" />
+    <bpmn:serviceTask id="Activity_1x2omy2" name="Приставление статуса отказано" camunda:expression="${execution.setVariable(&#34;status&#34;,&#34;Отказано&#34;)}">
+      <bpmn:incoming>Flow_0cz6y59</bpmn:incoming>
+      <bpmn:outgoing>Flow_04asecx</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="HR" name="HR" camunda:candidateUsers="amin_hr2, micha_hr1" camunda:candidateGroups="hr">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="vacationStartDate" label="Дата начала отпуска" type="date" />
+          <camunda:formField id="vacationEndDate" label="Дата окончания отпуска" type="date" />
+          <camunda:formField id="vacationType" label="Тип отпуска" type="enum">
+            <camunda:value id="everyyear" name="Ежегодный оплачиваемый отпуск" />
+            <camunda:value id="vacationWithoutSalary" name=" отпуск без сохранения ЗП" />
+            <camunda:value id="vacationForMothers" name="отпуск по уходу за  ребенком" />
+          </camunda:formField>
+          <camunda:formField id="statusManager" label="Решение по заявке" type="enum">
+            <camunda:value id="refused" name="Отказана" />
+            <camunda:value id="accepted" name="Согласована" />
+          </camunda:formField>
+          <camunda:formField id="applicationGUI" label="Порядковый номер" type="string" />
+        </camunda:formData>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="status">н</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1md57tj</bpmn:incoming>
+      <bpmn:outgoing>Flow_01yveah</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_01yveah" sourceRef="HR" targetRef="Activity_1p7nv7w" />
+    <bpmn:serviceTask id="GenerateGUI" name="Генерация порядковый номер" camunda:delegateExpression="${GenerateGUID}">
+      <bpmn:incoming>Flow_144dp9f</bpmn:incoming>
+      <bpmn:outgoing>Flow_1681o2s</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1681o2s" sourceRef="GenerateGUI" targetRef="createAPP" />
+    <bpmn:exclusiveGateway id="Gateway_1lz7621" default="Flow_0z6hubo">
+      <bpmn:incoming>Flow_0hw2n68</bpmn:incoming>
+      <bpmn:outgoing>Flow_0r6jndn</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0z6hubo</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0r6jndn" sourceRef="Gateway_1lz7621" targetRef="confirmation">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">status!='error'</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1ecmv6r" sourceRef="createAPP" targetRef="validateAPPData" />
+    <bpmn:sequenceFlow id="Flow_0hw2n68" sourceRef="validateAPPData" targetRef="Gateway_1lz7621" />
+    <bpmn:sequenceFlow id="Flow_0z6hubo" sourceRef="Gateway_1lz7621" targetRef="createAPP" />
+    <bpmn:sequenceFlow id="Flow_040w7x7" sourceRef="Activity_1p7nv7w" targetRef="endAccepted" />
+    <bpmn:serviceTask id="Activity_1p7nv7w" name="Проставление статуса завершен" camunda:expression="execution.setVariable(&#34;status&#34;, &#34;Завершено&#34;);">
+      <bpmn:incoming>Flow_01yveah</bpmn:incoming>
+      <bpmn:outgoing>Flow_040w7x7</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="RequestVacationSchedule">
+      <bpmndi:BPMNEdge id="Flow_0z6hubo_di" bpmnElement="Flow_0z6hubo">
+        <di:waypoint x="610" y="232" />
+        <di:waypoint x="610" y="350" />
+        <di:waypoint x="370" y="350" />
+        <di:waypoint x="370" y="247" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hw2n68_di" bpmnElement="Flow_0hw2n68">
+        <di:waypoint x="560" y="207" />
+        <di:waypoint x="585" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ecmv6r_di" bpmnElement="Flow_1ecmv6r">
+        <di:waypoint x="420" y="207" />
+        <di:waypoint x="460" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0r6jndn_di" bpmnElement="Flow_0r6jndn">
+        <di:waypoint x="635" y="207" />
+        <di:waypoint x="710" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1681o2s_di" bpmnElement="Flow_1681o2s">
+        <di:waypoint x="300" y="207" />
+        <di:waypoint x="320" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01yveah_di" bpmnElement="Flow_01yveah">
+        <di:waypoint x="1050" y="280" />
+        <di:waypoint x="1210" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04asecx_di" bpmnElement="Flow_04asecx">
+        <di:waypoint x="1190" y="110" />
+        <di:waypoint x="1262" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pci4xn_di" bpmnElement="Flow_1pci4xn">
+        <di:waypoint x="860" y="182" />
+        <di:waypoint x="860" y="110" />
+        <di:waypoint x="930" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1md57tj_di" bpmnElement="Flow_1md57tj">
+        <di:waypoint x="860" y="232" />
+        <di:waypoint x="860" y="290" />
+        <di:waypoint x="950" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cz6y59_di" bpmnElement="Flow_0cz6y59">
+        <di:waypoint x="1030" y="110" />
+        <di:waypoint x="1090" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fgm97j_di" bpmnElement="Flow_0fgm97j">
+        <di:waypoint x="810" y="207" />
+        <di:waypoint x="835" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_144dp9f_di" bpmnElement="Flow_144dp9f">
+        <di:waypoint x="178" y="207" />
+        <di:waypoint x="200" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_040w7x7_di" bpmnElement="Flow_040w7x7">
+        <di:waypoint x="1310" y="280" />
+        <di:waypoint x="1412" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="142" y="189" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="118" y="232" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ynprxi_di" bpmnElement="createAPP">
+        <dc:Bounds x="320" y="167" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1nvq9ce_di" bpmnElement="confirmation">
+        <dc:Bounds x="710" y="167" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ddkh7s_di" bpmnElement="Gateway_0ddkh7s" isMarkerVisible="true">
+        <dc:Bounds x="835" y="182" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1uvkwl4_di" bpmnElement="endRejected">
+        <dc:Bounds x="1262" y="92" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1249" y="135" width="63" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04kp7ty_di" bpmnElement="notify">
+        <dc:Bounds x="930" y="70" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0quvfpl_di" bpmnElement="validateAPPData">
+        <dc:Bounds x="460" y="167" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1eg8vyd_di" bpmnElement="Activity_1x2omy2">
+        <dc:Bounds x="1090" y="70" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0bzn0vh_di" bpmnElement="HR">
+        <dc:Bounds x="950" y="240" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04v7d0y_di" bpmnElement="GenerateGUI">
+        <dc:Bounds x="200" y="167" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1lz7621_di" bpmnElement="Gateway_1lz7621" isMarkerVisible="true">
+        <dc:Bounds x="585" y="182" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gejvna_di" bpmnElement="Activity_1p7nv7w">
+        <dc:Bounds x="1210" y="240" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_17z4tvh_di" bpmnElement="endAccepted">
+        <dc:Bounds x="1412" y="262" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1398" y="305" width="65" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

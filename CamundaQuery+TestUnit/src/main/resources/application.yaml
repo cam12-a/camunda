@@ -1,0 +1,25 @@
+spring.datasource.url: jdbc:h2:file:./camunda-h2-database
+
+camunda.bpm.admin-user:
+  id: demo
+  password: demo
+camunda:
+  bpm:
+    generic-properties:
+      properties:
+        userResourceWhitelistPattern: ".+"
+    database:
+      type: postgres
+
+
+spring:
+  datasource:
+    username: postgres
+    password: demo
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/RequestVacationSchedule
+
+server:
+  port: 8082
+
+telemetry: false
