@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0wzbs1d" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="checkSecurity" isExecutable="true">
+    <bpmn:userTask id="externalSystemSolution" name="Решение по заявке1" camunda:formKey="embedded:app:forms/directorAgreement.html">
+      <bpmn:incoming>Flow_0hlpbgp</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mjgehf</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="Event_18kkqx5" name="Подбор персонала">
+      <bpmn:outgoing>Flow_0hlpbgp</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_0zgwo3s">
+      <bpmn:incoming>Flow_1mjgehf</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0hlpbgp" sourceRef="Event_18kkqx5" targetRef="externalSystemSolution" />
+    <bpmn:sequenceFlow id="Flow_1mjgehf" sourceRef="externalSystemSolution" targetRef="Event_0zgwo3s" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="checkSecurity">
+      <bpmndi:BPMNEdge id="Flow_1mjgehf_di" bpmnElement="Flow_1mjgehf">
+        <di:waypoint x="450" y="110" />
+        <di:waypoint x="612" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hlpbgp_di" bpmnElement="Flow_0hlpbgp">
+        <di:waypoint x="198" y="110" />
+        <di:waypoint x="350" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_0wp91g5_di" bpmnElement="externalSystemSolution">
+        <dc:Bounds x="350" y="70" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_18kkqx5_di" bpmnElement="Event_18kkqx5">
+        <dc:Bounds x="162" y="92" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="153" y="135" width="55" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0zgwo3s_di" bpmnElement="Event_0zgwo3s">
+        <dc:Bounds x="612" y="92" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,12 @@
+spring.datasource.url: jdbc:h2:file:./camunda-h2-database
+
+camunda.bpm.admin-user:
+  id: demo
+  password: demo
+server:
+  port: 9090
+camunda:
+  bpm:
+    generic-properties:
+      properties:
+        userResourceWhitelistPattern: ".+"
