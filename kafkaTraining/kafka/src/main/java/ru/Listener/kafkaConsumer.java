@@ -7,7 +7,12 @@ import org.springframework.stereotype.Service;
 import ru.Model.ApplicationData;
 import ru.Services.CreateAppInstance;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @Service
@@ -25,28 +30,24 @@ public class kafkaConsumer {
     }
 
    @KafkaListener(topics = "recruitment_app_json", groupId = "group_json",containerFactory = "applicationKafkaListenerFactory")
-    public void consume(ApplicationData appData) {
+    public void consume(ApplicationData appData) throws ParseException {
         System.out.println("Consume message "+appData);
         Map<String, Object> variables=new HashMap<>();
+
+       DateFormat formatter=new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
+       DateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy");
 
         variables.put("applicationGUI",appData.getApplicationGUI());
         variables.put("firstName",appData.getFirstName());
         variables.put("name",appData.getName());
         variables.put("lastName",appData.getLastName());
-        variables.put("dateBirth",appData.getDateBirth());
+        variables.put("dateBirth",formatter1.format(formatter.parse(appData.getDateBirth().toString())));
         variables.put("stage",appData.getStage());
         variables.put("status",appData.getStatus());
         variables.put("jobPlace",appData.getJobPlace());
 
         createAppInstance.appInstance(variables);
 
-        applicationData.setApplicationGUI(appData.getApplicationGUI());
-        applicationData.setStatus(appData.getStatus());
-        applicationData.setStage(appData.getStage());
-        applicationData.setJobPlace(appData.getJobPlace());
-        applicationData.setLastName(appData.getLastName());
-        applicationData.setFirstName(appData.getLastName());
-        applicationData.setDateBirth(appData.getDateBirth());
-        applicationData.setName(appData.getName());
+
     }
 }

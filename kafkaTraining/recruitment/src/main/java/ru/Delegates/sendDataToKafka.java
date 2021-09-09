@@ -8,7 +8,10 @@ import org.springframework.kafka.core.KafkaTemplate;
 import ru.Model.ApplicationData;
 
 import javax.inject.Named;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 @Named("sendDataToKafka")
 public class sendDataToKafka implements JavaDelegate {
@@ -23,7 +26,10 @@ public class sendDataToKafka implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
 
         applicationData.setApplicationGUI(delegateExecution.getVariable("applicationGUI").toString());
-        applicationData.setDateBirth( delegateExecution.getVariable("dateBirth").toString());
+       // DateFormat formatter=new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
+        System.out.println(delegateExecution.getVariable("dateBirth").toString());
+        DateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy");
+        applicationData.setDateBirth(formatter1.parse((delegateExecution.getVariable("dateBirth").toString())));
         applicationData.setFirstName(delegateExecution.getVariable("firstName").toString());
         applicationData.setLastName(delegateExecution.getVariable("lastName").toString());
         applicationData.setJobPlace(delegateExecution.getVariable("jobPlace").toString());

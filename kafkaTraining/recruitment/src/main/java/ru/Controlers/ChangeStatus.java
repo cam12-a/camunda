@@ -10,9 +10,11 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.runtime.VariableInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.Connectors.GetStatusValue;
 import ru.Model.ApplicationData;
 import ru.Services.CheckProcessExist;
 import ru.Services.CloseApplication;
@@ -32,6 +34,9 @@ public class ChangeStatus {
 
     @Autowired
     CloseApplication closeApplication;
+
+    @Autowired
+    GetStatusValue getStatusValue;
     private static final String TOPIC="recruitment_app";
     @PostMapping("/status/{appNumber}/{statusValue}/")
     public String changeStatusUsingAPI(@PathVariable String appNumber,@PathVariable String statusValue)
@@ -53,4 +58,16 @@ public class ChangeStatus {
         else
             return false;
     }
+
+
+    @GetMapping("/appData/{appNumber}/")
+    public ApplicationData getAppData(@PathVariable  String appNumber)
+    {
+
+        //closeApplication.closeApplication(appNumber);
+        getStatusValue.sendStatus(appNumber);
+        System.out.println( getStatusValue.sendStatus(appNumber).toString());
+        return applicationData;
+    }
+
 }

@@ -39,7 +39,7 @@ public class CheckProcessExist {
                     .variableName("applicationGUI")
                     .singleResult();
 
-           
+
             if(appNumber.equals(historicVariableInstance.getValue()))
                 return true;
         }

@@ -17,7 +17,7 @@ public class ApplicationData {
     private String firstName;
     private String name;
     private String lastName;
-    private String dateBirth;
+    private Date dateBirth;
     private int stage;
     private  String status;
     private String jobPlace;
