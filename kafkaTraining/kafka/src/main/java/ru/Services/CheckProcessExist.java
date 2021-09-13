@@ -22,7 +22,7 @@ public class CheckProcessExist {
         RepositoryService repositoryService=processEngines.getRepositoryService();
 
         ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery()
-                .processDefinitionKey("checkSecurity")
+                .processDefinitionKey("security")
                 .latestVersion().singleResult();
 
         List<HistoricProcessInstance> historicProcessInstance= historyService.createHistoricProcessInstanceQuery()

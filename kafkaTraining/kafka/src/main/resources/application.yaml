@@ -5,3 +5,19 @@ camunda.bpm.admin-user:
   password: demo
 server:
   port: 7070
+
+
+camunda:
+  bpm:
+    generic-properties:
+      properties:
+        userResourceWhitelistPattern: ".+"
+    database:
+      type: postgres
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kafka
+    username: postgres
+    password: demo
+    driver-class-name: org.postgresql.Driver

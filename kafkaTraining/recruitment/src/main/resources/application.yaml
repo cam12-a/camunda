@@ -10,3 +10,11 @@ camunda:
     generic-properties:
       properties:
         userResourceWhitelistPattern: ".+"
+    database:
+      type: postgres
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kafka
+    username: postgres
+    password: demo
+    driver-class-name: org.postgresql.Driver

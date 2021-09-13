@@ -42,7 +42,7 @@ public class CloseApplication {
             RepositoryService repositoryService=processEngines.getRepositoryService();
 
             ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery()
-                    .processDefinitionKey("checkSecurity")
+                    .processDefinitionKey("security")
                     .latestVersion().singleResult();
 
 
@@ -83,9 +83,9 @@ public class CloseApplication {
                     DateFormat formatter=new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
                     DateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy");
 
-                    applicationData.setDateBirth(formatter1.parse(formatter1.format(formatter.parse(runtimeService.createVariableInstanceQuery()
+                    /*applicationData.setDateBirth(formatter1.parse(formatter1.format(formatter.parse(runtimeService.createVariableInstanceQuery()
                             .processInstanceIdIn(pr.getId())
-                            .variableName("dateBirth").singleResult().getTypedValue().getValue().toString()))));
+                            .variableName("dateBirth").singleResult().getTypedValue().getValue().toString()))));*/
 
 
 

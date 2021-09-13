@@ -14,7 +14,7 @@ public class CreateAppInstance {
     public void appInstance(Map<String, Object> variables){
         ProcessEngine processEngine= ProcessEngines.getDefaultProcessEngine();
         RuntimeService runtimeService=processEngine.getRuntimeService();
-        ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("checkSecurity");
+        ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("security");
         runtimeService.setVariables(processInstance.getId(),variables);
     }
 }

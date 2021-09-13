@@ -53,10 +53,7 @@ public class ChangeStatus {
     }
 
     public static boolean validateStatus(String status){
-        if(status.equals("cancelled") || status.equals("approved"))
-            return true;
-        else
-            return false;
+        return status.equals("cancelled") || status.equals("approved");
     }
 
 

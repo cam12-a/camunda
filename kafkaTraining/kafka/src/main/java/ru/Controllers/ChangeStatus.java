@@ -1,6 +1,11 @@
 package ru.Controllers;
 
 
+import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.ProcessEngines;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +43,14 @@ public class ChangeStatus {
             applicationData.setStatus(statusValue);
             kafkaTemplate.send(TOPIC,applicationData.getStatus());
             closeApplication.closeApplication(appNumber);
+            ProcessEngine processEngine= ProcessEngines.getDefaultProcessEngine();
+            RuntimeService runtimeService=processEngine.getRuntimeService();
+            /*ProcessDefinition processDefinition=processEngine.getRepositoryService().getProcessDefinition("checkSecurity");
+            ProcessInstance processInstance=runtimeService.createProcessInstanceQuery()
+                    .processDefinitionId(processDefinition.getId())
+                    .active()
+                    .singleResult();*/
+           // runtimeService.createMessageCorrelation("startReview").processDefinitionId("security").correlate();
             return "Статус заявки успешно изменено на "+ applicationData.getStatus();
 
         }
@@ -49,7 +62,7 @@ public class ChangeStatus {
     {
         closeApplication.closeApplication(appNumber);
         System.out.println("ok");
-        //System.out.println(applicationData.toString());
+        System.out.println("controller value data "+applicationData.toString());
         return applicationData;
     }
 

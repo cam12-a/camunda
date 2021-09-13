@@ -1,8 +1,12 @@
 package ru.Delegates;
 
 
+import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.ProcessEngines;
+import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import ru.Model.ApplicationData;
@@ -11,7 +15,9 @@ import javax.inject.Named;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 @Named("sendDataToKafka")
 public class sendDataToKafka implements JavaDelegate {
@@ -37,6 +43,9 @@ public class sendDataToKafka implements JavaDelegate {
         applicationData.setStage(Integer.parseInt(delegateExecution.getVariable("stage").toString()));
         applicationData.setStatus(delegateExecution.getVariable("status").toString());
         kafkaTemplate.send(TOPIC, applicationData);
+
+
+
 
 
     }

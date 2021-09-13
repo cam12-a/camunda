@@ -32,7 +32,7 @@ public class CloseApplication {
             RepositoryService repositoryService=processEngines.getRepositoryService();
 
             ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery()
-                    .processDefinitionKey("recruitment")
+                    .processDefinitionKey("process")
                     .latestVersion().singleResult();
 
 
@@ -47,7 +47,8 @@ public class CloseApplication {
                         .variableName("applicationGUI")
                         .singleResult();
 
-                if(variableInstance.getTypedValue().getValue().equals(appNumber)){
+
+               /* if(variableInstance.getTypedValue().getValue().equals(appNumber)){
                     Execution execution=runtimeService.createExecutionQuery()
                             .processDefinitionId(processDefinition.getId())
                             .processInstanceId(pr.getId())
@@ -56,7 +57,7 @@ public class CloseApplication {
 
                     runtimeService.signal(execution.getId());
 
-                }
+                }*/
             }
         }
 

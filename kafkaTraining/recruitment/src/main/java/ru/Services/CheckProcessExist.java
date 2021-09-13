@@ -18,7 +18,7 @@ public class CheckProcessExist {
     public boolean isProcessExist(String appNumber)
     {
         ProcessEngine processEngines=ProcessEngines.getDefaultProcessEngine();
-        HistoryService historyService = processEngines.getHistoryService();;
+        HistoryService historyService = processEngines.getHistoryService();
         RepositoryService repositoryService=processEngines.getRepositoryService();
 
         ProcessDefinition processDefinition=repositoryService.createProcessDefinitionQuery()
