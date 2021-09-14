@@ -3,14 +3,13 @@ package ru.Services;
 
 
 import lombok.SneakyThrows;
-import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.ProcessEngines;
-import org.camunda.bpm.engine.RepositoryService;
-import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.Execution;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.runtime.VariableInstance;
+import org.camunda.bpm.engine.task.Task;
+import org.camunda.bpm.model.bpmn.instance.UserTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.Model.ApplicationData;
@@ -20,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 @Service("CloseApplication")
@@ -45,19 +45,17 @@ public class CloseApplication {
                     .processDefinitionKey("security")
                     .latestVersion().singleResult();
 
+            List<ProcessInstance> processInstance=this.processToExecuteAutomatically();
 
-            List<ProcessInstance> processInstance=runtimeService.createProcessInstanceQuery()
-                    .processDefinitionId(processDefinition.getId())
-                    .active()
-                    .list();
 
             for(ProcessInstance pr: processInstance){
+
                 VariableInstance variableInstance=runtimeService.createVariableInstanceQuery()
                         .processInstanceIdIn(pr.getId())
                         .variableName("applicationGUI")
                         .singleResult();
 
-                if(variableInstance.getValue().equals(appNumber)){
+                if( variableInstance.getValue().equals(appNumber)){
                     applicationData.setApplicationGUI(variableInstance.getTypedValue().getValue().toString());
 
                     applicationData.setFirstName(runtimeService.createVariableInstanceQuery()
@@ -76,26 +74,16 @@ public class CloseApplication {
                             .processInstanceIdIn(pr.getId())
                             .variableName("name").singleResult().getTypedValue().getValue().toString());
 
+                    applicationData.setJobPlace(runtimeService.createVariableInstanceQuery()
+                            .processInstanceIdIn(pr.getId())
+                            .variableName("jobPlace").singleResult().getTypedValue().getValue().toString());
+
 
                     applicationData.setStage(Integer.parseInt(runtimeService.createVariableInstanceQuery()
                             .processInstanceIdIn(pr.getId())
                             .variableName("stage").singleResult().getTypedValue().getValue().toString()));
-                    DateFormat formatter=new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
-                    DateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy");
 
-                    /*applicationData.setDateBirth(formatter1.parse(formatter1.format(formatter.parse(runtimeService.createVariableInstanceQuery()
-                            .processInstanceIdIn(pr.getId())
-                            .variableName("dateBirth").singleResult().getTypedValue().getValue().toString()))));*/
-
-
-
-                    /*Execution execution=runtimeService.createExecutionQuery()
-                            .processDefinitionId(processDefinition.getId())
-                            .processInstanceId(pr.getId())
-                            .activityId("externalSystemSolution")
-                            .singleResult();
-
-                    runtimeService.signal(execution.getId());*/
+                    break;
 
                 }
             }
@@ -104,6 +92,65 @@ public class CloseApplication {
     }
 
 
+    public List<ProcessInstance> processToExecuteAutomatically()
+    {
+
+        ProcessDefinition processDefinition=ProcessEngines.getDefaultProcessEngine().getRepositoryService().createProcessDefinitionQuery()
+                .processDefinitionKey("security")
+                .latestVersion().singleResult();
+
+        return ProcessEngines.getDefaultProcessEngine().getRuntimeService().createProcessInstanceQuery()
+                .processDefinitionId(processDefinition.getId())
+                .active()
+                .list();
+    }
+
+    public void setStatusValue(String statusValue, String appNumber) {
+
+        List<ProcessInstance> processInstance = this.processToExecuteAutomatically();
+        for (ProcessInstance pr : processInstance) {
+
+            VariableInstance variableInstance = ProcessEngines.getDefaultProcessEngine().getRuntimeService().createVariableInstanceQuery()
+                    .processInstanceIdIn(pr.getId())
+                    .variableName("applicationGUI")
+                    .singleResult();
+
+            if (variableInstance.getValue().equals(appNumber)) {
+
+                ProcessEngines.getDefaultProcessEngine().getRuntimeService()
+                        .setVariable(pr.getId(),"status",statusValue);
+                break;
+
+            }
+        }
+
+
+    }
+    public void completeTask(String appNumber, Map<String,Object> variables)
+    {
+        List<ProcessInstance> processInstance = this.processToExecuteAutomatically();
+        for (ProcessInstance pr : processInstance) {
+
+            VariableInstance variableInstance = ProcessEngines.getDefaultProcessEngine().getRuntimeService().createVariableInstanceQuery()
+                    .processInstanceIdIn(pr.getId())
+                    .variableName("applicationGUI")
+                    .singleResult();
+
+            if (variableInstance.getValue().equals(appNumber)) {
+                TaskService taskService = ProcessEngines.getDefaultProcessEngine().getTaskService();
+                Task task=taskService.createTaskQuery()
+                        .processInstanceId(pr.getId())
+                        .active()
+                        .singleResult();
+
+                System.out.println("idtask "+task.getId());
+                taskService.completeWithVariablesInReturn(task.getId(),variables,true);
+
+                break;
+            }
+        }
+
+    }
 
 
 }

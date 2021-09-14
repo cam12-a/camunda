@@ -13,8 +13,11 @@ camunda:
     database:
       type: postgres
 spring:
+  jpa:
+    database-platform: ${PLATFORM}
   datasource:
-    url: jdbc:postgresql://localhost:5432/kafka
-    username: postgres
-    password: demo
-    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: ${DB_DRIVER}
+

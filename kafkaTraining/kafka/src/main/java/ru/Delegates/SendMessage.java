@@ -32,11 +32,7 @@ public class SendMessage implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
 
 
-        sendStatus.sendStatus("http://localhost:7070/appData/"+delegateExecution.getVariable("applicationGUI")+"/");
-        delegateExecution.setVariable("status","approved");
-        applicationData.setStatus(delegateExecution.getVariable("status").toString());
-        System.out.println("Status "+delegateExecution.getVariable("status"));
-        System.out.println("delegate value data "+applicationData.toString());
+        sendStatus.sendStatus("http://localhost:7070/appData/"+delegateExecution.getVariable("applicationGUI").toString()+"/");
 
         List<ProcessInstance> processInstance=delegateExecution.getProcessEngine()
                 .getRuntimeService().createProcessInstanceQuery()
@@ -45,12 +41,7 @@ public class SendMessage implements JavaDelegate {
                 .list();
 
 
-
         for(ProcessInstance pr: processInstance) {
-
-
-
-
 
             VariableInstance variableInstance=ProcessEngines.getDefaultProcessEngine()
                     .getRuntimeService().createVariableInstanceQuery()
@@ -60,15 +51,10 @@ public class SendMessage implements JavaDelegate {
 
             if(variableInstance.getTypedValue().getValue().equals(delegateExecution.getVariable("applicationGUI"))){
 
-                System.out.println(ProcessEngines.getDefaultProcessEngine()
-                        .getRuntimeService().createVariableInstanceQuery()
-                        .processInstanceIdIn(pr.getId())
-                        .variableName("status")
-                        .singleResult().getValue()
-                );
 
-                ProcessEngines.getDefaultProcessEngine().getRuntimeService()
-                        .setVariable("status",delegateExecution.getVariable("status").toString(),pr);
+
+               ProcessEngines.getDefaultProcessEngine().getRuntimeService()
+                        .setVariable(pr.getId(),"status",delegateExecution.getVariable("status").toString());
 
                 delegateExecution.getProcessEngineServices().getRuntimeService().createMessageCorrelation("startReview")
                         .processInstanceId(pr.getId()).correlateAllWithResult();

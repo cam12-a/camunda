@@ -17,6 +17,9 @@ import ru.Model.ApplicationData;
 import ru.Services.CheckProcessExist;
 import ru.Services.CloseApplication;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @RestController
 
@@ -38,19 +41,24 @@ public class ChangeStatus {
     @PostMapping("/status/{appNumber}/{statusValue}/")
     public String changeStatusUsingAPI(@PathVariable String appNumber,@PathVariable String statusValue)
     {
-        System.out.println(processExist.isProcessExist(appNumber));
+        System.out.println("status value"+statusValue);
         if(validateStatus(statusValue) && processExist.isProcessExist(appNumber)){
-            applicationData.setStatus(statusValue);
-            kafkaTemplate.send(TOPIC,applicationData.getStatus());
+
+            closeApplication.setStatusValue(statusValue,appNumber);
             closeApplication.closeApplication(appNumber);
-            ProcessEngine processEngine= ProcessEngines.getDefaultProcessEngine();
-            RuntimeService runtimeService=processEngine.getRuntimeService();
-            /*ProcessDefinition processDefinition=processEngine.getRepositoryService().getProcessDefinition("checkSecurity");
-            ProcessInstance processInstance=runtimeService.createProcessInstanceQuery()
-                    .processDefinitionId(processDefinition.getId())
-                    .active()
-                    .singleResult();*/
-           // runtimeService.createMessageCorrelation("startReview").processDefinitionId("security").correlate();
+            applicationData.setStatus(statusValue);
+            Map<String,Object> variable=new HashMap<String,Object>();
+            variable.put("applicationGUI",applicationData.getApplicationGUI());
+            variable.put("dateBirth",applicationData.getDateBirth());
+            variable.put("firstName",applicationData.getFirstName());
+            variable.put("lastName",applicationData.getLastName());
+            variable.put("jobPlace",applicationData.getJobPlace());
+            variable.put("stage",applicationData.getStage());
+            variable.put("status",applicationData.getStatus());
+            closeApplication.completeTask(appNumber,variable);
+
+
+
             return "Статус заявки успешно изменено на "+ applicationData.getStatus();
 
         }

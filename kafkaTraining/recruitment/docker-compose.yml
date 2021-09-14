@@ -1,0 +1,54 @@
+version: "3"
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: 1
+    ports:
+      - "2181:2181"
+    networks:
+      - app-tier
+
+  kafka:
+    image: 'bitnami/kafka:latest'
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      ALLOW_PLAINTEXT_LISTENER: 1
+    ports:
+      - "9092:9092"
+    networks:
+      - app-tier
+
+  applicationinternal:
+    image: internalapplication:v1.0
+    ports:
+      - 9090:9090
+
+    networks:
+      - app-tier
+    environment:
+      DB_DRIVER: "org.postgresql.Driver"
+      DB_URL: "jdbc:postgresql://host.docker.internal:5432/kafka"
+      DB_USERNAME: "postgres"
+      DB_PASSWORD: "demo"
+      PLATFORM: "org.hibernate.dialect.PostgreSQLDialect"
+
+  externalapplication:
+    image: externalapplication:v1.0
+    ports:
+      - 7070:7070
+    networks:
+      - app-tier
+    environment:
+      DB_DRIVER: "org.postgresql.Driver"
+      DB_URL: "jdbc:postgresql://host.docker.internal:5432/kafka"
+      DB_USERNAME: "postgres"
+      DB_PASSWORD: "demo"
+      PLATFORM: "org.hibernate.dialect.PostgreSQLDialect"
