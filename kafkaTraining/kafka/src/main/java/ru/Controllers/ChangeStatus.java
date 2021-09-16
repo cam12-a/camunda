@@ -55,6 +55,8 @@ public class ChangeStatus {
             variable.put("jobPlace",applicationData.getJobPlace());
             variable.put("stage",applicationData.getStage());
             variable.put("status",applicationData.getStatus());
+
+
             closeApplication.completeTask(appNumber,variable);
 
 

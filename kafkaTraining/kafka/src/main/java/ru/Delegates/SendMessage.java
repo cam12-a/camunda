@@ -32,7 +32,7 @@ public class SendMessage implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
 
 
-        sendStatus.sendStatus("http://localhost:7070/appData/"+delegateExecution.getVariable("applicationGUI").toString()+"/");
+        //sendStatus.sendStatus("http://localhost:7070/appData/"+ applicationData.getApplicationGUI()+"/");
 
         List<ProcessInstance> processInstance=delegateExecution.getProcessEngine()
                 .getRuntimeService().createProcessInstanceQuery()

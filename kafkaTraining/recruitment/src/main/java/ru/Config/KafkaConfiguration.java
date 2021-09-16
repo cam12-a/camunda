@@ -1,6 +1,7 @@
 package ru.Config;
 
 
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -22,31 +23,32 @@ public class KafkaConfiguration {
     public ProducerFactory producerFactory(){
 
         Map<String, Object> config = new HashMap<String, Object>();
-        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,"kafka:9092");
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
 
         return new DefaultKafkaProducerFactory<>(config);
     }
 
-    @Bean
+   /* @Bean
     public ProducerFactory statusProducerFactory()
     {
         Map<String, Object> config=new HashMap<>();
-        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,"kafka:9092");
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return new DefaultKafkaProducerFactory<>(config);
     }
-
+*/
     @Bean
     public KafkaTemplate<String, ApplicationData> kafkaTemplate()
     {
         return new KafkaTemplate<>(producerFactory());
     }
 
-    @Bean
+   /* @Bean
     public KafkaTemplate<String, String> kafkaTemplates(){
         return new KafkaTemplate<>(producerFactory());
-    }
+    }*/
 }

@@ -1,54 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0wzbs1d" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="security" name="security" isExecutable="true">
-    <bpmn:userTask id="externalSystemSolution" name="Решение по заявке1" camunda:formKey="embedded:app:forms/directorAgreement.html">
-      <bpmn:incoming>Flow_0hlpbgp</bpmn:incoming>
-      <bpmn:outgoing>Flow_1mjgehf</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:startEvent id="Event_18kkqx5" name="Подбор персонала">
       <bpmn:outgoing>Flow_0hlpbgp</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:endEvent id="Event_0zgwo3s">
       <bpmn:incoming>Flow_0lmim5y</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_0hlpbgp" sourceRef="Event_18kkqx5" targetRef="externalSystemSolution" />
-    <bpmn:sequenceFlow id="Flow_1mjgehf" sourceRef="externalSystemSolution" targetRef="Event_0nyksch" />
+    <bpmn:sequenceFlow id="Flow_0hlpbgp" sourceRef="Event_18kkqx5" targetRef="Activity_0pyhmow" />
     <bpmn:intermediateThrowEvent id="Event_0nyksch" camunda:asyncAfter="true">
-      <bpmn:incoming>Flow_1mjgehf</bpmn:incoming>
+      <bpmn:incoming>Flow_0vyf2to</bpmn:incoming>
       <bpmn:outgoing>Flow_0lmim5y</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_0hsx16u" messageRef="Message_1xlrypb" camunda:delegateExpression="${SendMessage}" />
     </bpmn:intermediateThrowEvent>
     <bpmn:sequenceFlow id="Flow_0lmim5y" sourceRef="Event_0nyksch" targetRef="Event_0zgwo3s" />
+    <bpmn:userTask id="Activity_0pyhmow" name="Решение по заявке1" camunda:formKey="embedded:app:forms/directorAgreement.html">
+      <bpmn:incoming>Flow_0hlpbgp</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vyf2to</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0vyf2to" sourceRef="Activity_0pyhmow" targetRef="Event_0nyksch" />
   </bpmn:process>
   <bpmn:message id="Message_1xlrypb" name="startReview" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="security">
+      <bpmndi:BPMNEdge id="Flow_0vyf2to_di" bpmnElement="Flow_0vyf2to">
+        <di:waypoint x="370" y="120" />
+        <di:waypoint x="391" y="120" />
+        <di:waypoint x="391" y="110" />
+        <di:waypoint x="412" y="110" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0lmim5y_di" bpmnElement="Flow_0lmim5y">
         <di:waypoint x="448" y="110" />
         <di:waypoint x="612" y="110" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1mjgehf_di" bpmnElement="Flow_1mjgehf">
-        <di:waypoint x="370" y="110" />
-        <di:waypoint x="412" y="110" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0hlpbgp_di" bpmnElement="Flow_0hlpbgp">
         <di:waypoint x="198" y="110" />
-        <di:waypoint x="270" y="110" />
+        <di:waypoint x="234" y="110" />
+        <di:waypoint x="234" y="120" />
+        <di:waypoint x="270" y="120" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_0wp91g5_di" bpmnElement="externalSystemSolution">
-        <dc:Bounds x="270" y="70" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_18kkqx5_di" bpmnElement="Event_18kkqx5">
         <dc:Bounds x="162" y="92" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="153" y="135" width="55" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0zgwo3s_di" bpmnElement="Event_0zgwo3s">
+        <dc:Bounds x="612" y="92" width="36" height="36" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0nyksch_di" bpmnElement="Event_0nyksch">
         <dc:Bounds x="412" y="92" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0zgwo3s_di" bpmnElement="Event_0zgwo3s">
-        <dc:Bounds x="612" y="92" width="36" height="36" />
+      <bpmndi:BPMNShape id="Activity_0pyhmow_di" bpmnElement="Activity_0pyhmow">
+        <dc:Bounds x="270" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

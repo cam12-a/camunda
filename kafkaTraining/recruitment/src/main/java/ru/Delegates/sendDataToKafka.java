@@ -44,6 +44,8 @@ public class sendDataToKafka implements JavaDelegate {
         applicationData.setStatus(delegateExecution.getVariable("status").toString());
         kafkaTemplate.send(TOPIC, applicationData);
 
+        //kafkaTemplate.send(TOPIC, "HUI");
+
 
 
 

@@ -28,7 +28,7 @@ public class ChangeStatus {
     @Autowired
     ApplicationData applicationData;
     @Autowired
-    KafkaTemplate<String,String> kafkaTemplate;
+    KafkaTemplate<String,ApplicationData> kafkaTemplate;
     @Autowired
     CheckProcessExist processExist;
 
@@ -37,7 +37,7 @@ public class ChangeStatus {
 
     @Autowired
     GetStatusValue getStatusValue;
-    private static final String TOPIC="recruitment_app";
+    private static final String TOPIC="recruitment_app_json";
     @PostMapping("/status/{appNumber}/{statusValue}/")
     public String changeStatusUsingAPI(@PathVariable String appNumber,@PathVariable String statusValue)
     {
@@ -45,7 +45,7 @@ public class ChangeStatus {
         if(validateStatus(statusValue) && processExist.isProcessExist(appNumber)){
             applicationData.setApplicationGUI(appNumber);
             applicationData.setStatus(statusValue);
-            kafkaTemplate.send(TOPIC,applicationData.getStatus());
+            //kafkaTemplate.send(TOPIC,applicationData.getStatus());
             closeApplication.closeApplication(appNumber);
            return "Статус заявки успешно изменено на "+ applicationData.getStatus();
         }

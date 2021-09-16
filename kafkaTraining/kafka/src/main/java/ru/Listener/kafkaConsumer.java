@@ -24,10 +24,6 @@ public class kafkaConsumer {
     @Autowired
     CreateAppInstance createAppInstance;
 
-    @KafkaListener(topics = "recruitment_app", groupId = "group_id")
-    public void consume(String message) {
-        System.out.println("Consume message "+message);
-    }
 
    @KafkaListener(topics = "recruitment_app_json", groupId = "group_json",containerFactory = "applicationKafkaListenerFactory")
     public void consume(ApplicationData appData) throws ParseException {

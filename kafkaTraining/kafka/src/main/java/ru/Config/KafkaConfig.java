@@ -18,14 +18,15 @@ import java.util.Map;
 @EnableKafka
 @Configuration
 public class KafkaConfig {
-
+/*
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> config = new HashMap<String, Object>();
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,"kafka:9092");
         config.put(ConsumerConfig.GROUP_ID_CONFIG,"group_id");
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,StringDeserializer.class);
+
 
         return new DefaultKafkaConsumerFactory<>(config);
     }
@@ -36,13 +37,13 @@ public class KafkaConfig {
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }
-
+*/
 
     @Bean
     public ConsumerFactory<String, ApplicationData> userConsumerFactory()
     {
         Map<String, Object> config = new HashMap<>();
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,"kafka:9092");
         config.put(ConsumerConfig.GROUP_ID_CONFIG,"group_json");
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
