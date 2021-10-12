@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1hhvvkv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_1udc1mp" isExecutable="true">
+    <bpmn:startEvent id="Event_00idebt" name="Заполнение информация" camunda:formKey="embedded:app:forms/employeeForm.html" camunda:initiator="employee">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="dateFrom" label="Дата начала" type="date" />
+          <camunda:formField id="dateTo" label="Дата окончания" type="date" />
+          <camunda:formField id="reason" label="Причина отсутствия" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_10rz90a</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Activity_1oup5yt" name="Выбор руководителя и его помощника">
+      <bpmn:incoming>Flow_10rz90a</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ena2jv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sendTask id="Activity_1hneawe" name="отправка сообщения в статусную модель">
+      <bpmn:incoming>Flow_1ena2jv</bpmn:incoming>
+      <bpmn:outgoing>Flow_0r172sn</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:exclusiveGateway id="Gateway_0xs8fdh">
+      <bpmn:incoming>Flow_0r172sn</bpmn:incoming>
+      <bpmn:outgoing>Flow_02hxi15</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0j3g0xc</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_14qja0o">
+      <bpmn:incoming>Flow_0j3g0xc</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sendTask id="Activity_11p6cb6" name="отправка сообщения в статусную модель">
+      <bpmn:incoming>Flow_02hxi15</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qoo509</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:endEvent id="Event_0dwyequ">
+      <bpmn:incoming>Flow_1qoo509</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Activity_088d9v4" name="Выбор кадровика и его помощника" />
+    <bpmn:sequenceFlow id="Flow_10rz90a" sourceRef="Event_00idebt" targetRef="Activity_1oup5yt" />
+    <bpmn:sequenceFlow id="Flow_1ena2jv" sourceRef="Activity_1oup5yt" targetRef="Activity_1hneawe" />
+    <bpmn:sequenceFlow id="Flow_0r172sn" sourceRef="Activity_1hneawe" targetRef="Gateway_0xs8fdh" />
+    <bpmn:sequenceFlow id="Flow_02hxi15" name="да" sourceRef="Gateway_0xs8fdh" targetRef="Activity_11p6cb6" />
+    <bpmn:sequenceFlow id="Flow_0j3g0xc" name="нет" sourceRef="Gateway_0xs8fdh" targetRef="Event_14qja0o" />
+    <bpmn:sequenceFlow id="Flow_1qoo509" sourceRef="Activity_11p6cb6" targetRef="Event_0dwyequ" />
+    <bpmn:textAnnotation id="TextAnnotation_0togs2h">
+      <bpmn:text>руководитель согласовал</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1qzx1jm" sourceRef="Gateway_0xs8fdh" targetRef="TextAnnotation_0togs2h" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1udc1mp">
+      <bpmndi:BPMNShape id="TextAnnotation_0togs2h_di" bpmnElement="TextAnnotation_0togs2h">
+        <dc:Bounds x="660" y="183" width="100" height="41" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_10rz90a_di" bpmnElement="Flow_10rz90a">
+        <di:waypoint x="208" y="250" />
+        <di:waypoint x="280" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ena2jv_di" bpmnElement="Flow_1ena2jv">
+        <di:waypoint x="380" y="250" />
+        <di:waypoint x="440" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0r172sn_di" bpmnElement="Flow_0r172sn">
+        <di:waypoint x="540" y="250" />
+        <di:waypoint x="605" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02hxi15_di" bpmnElement="Flow_02hxi15">
+        <di:waypoint x="630" y="225" />
+        <di:waypoint x="630" y="113" />
+        <di:waypoint x="710" y="113" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="603" y="137" width="13" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0j3g0xc_di" bpmnElement="Flow_0j3g0xc">
+        <di:waypoint x="630" y="275" />
+        <di:waypoint x="630" y="333" />
+        <di:waypoint x="752" y="333" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="591" y="296" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qoo509_di" bpmnElement="Flow_1qoo509">
+        <di:waypoint x="810" y="113" />
+        <di:waypoint x="1002" y="113" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_00idebt_di" bpmnElement="Event_00idebt">
+        <dc:Bounds x="172" y="232" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="159" y="275" width="66" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1oup5yt_di" bpmnElement="Activity_1oup5yt">
+        <dc:Bounds x="280" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hneawe_di" bpmnElement="Activity_1hneawe">
+        <dc:Bounds x="440" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0xs8fdh_di" bpmnElement="Gateway_0xs8fdh" isMarkerVisible="true">
+        <dc:Bounds x="605" y="225" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_14qja0o_di" bpmnElement="Event_14qja0o">
+        <dc:Bounds x="752" y="315" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_11p6cb6_di" bpmnElement="Activity_11p6cb6">
+        <dc:Bounds x="710" y="73" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0dwyequ_di" bpmnElement="Event_0dwyequ">
+        <dc:Bounds x="1002" y="95" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_088d9v4_di" bpmnElement="Activity_088d9v4">
+        <dc:Bounds x="850" y="73" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1qzx1jm_di" bpmnElement="Association_1qzx1jm">
+        <di:waypoint x="645" y="240" />
+        <di:waypoint x="670" y="224" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

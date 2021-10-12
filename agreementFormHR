@@ -65,7 +65,7 @@
 	                cam-variable-type="String" >
 	            <option  value="">Решение по заявке</option>
 	            <option  value="approved">Согласовать</option>
-	            <option value="cancelled">Отказать</option>
+	            <option value="executed">Исполнена</option>
 	        </select>
     	</div>
 
