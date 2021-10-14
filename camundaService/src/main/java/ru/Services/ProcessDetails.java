@@ -19,7 +19,7 @@ import static org.camunda.bpm.BpmPlatform.getDefaultProcessEngine;
 
 
 
-@Service("ProcessDetails")
+@Service
 public class ProcessDetails {
 
 

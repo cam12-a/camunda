@@ -107,14 +107,12 @@
       <bpmn:incoming>Flow_05bnx2o</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_05bnx2o" sourceRef="Activity_129w4sq" targetRef="Event_0a1tcqb" />
-    <bpmn:exclusiveGateway id="Gateway_14yh1dv" default="Flow_10j9xa3">
+    <bpmn:exclusiveGateway id="Gateway_14yh1dv">
       <bpmn:incoming>Flow_05l32jt</bpmn:incoming>
       <bpmn:outgoing>Flow_076cfk4</bpmn:outgoing>
       <bpmn:outgoing>Flow_10j9xa3</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_076cfk4" sourceRef="Gateway_14yh1dv" targetRef="Activity_1mjy8uu">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">false=false</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_076cfk4" sourceRef="Gateway_14yh1dv" targetRef="Activity_1mjy8uu" />
     <bpmn:sequenceFlow id="Flow_0ocooha" sourceRef="Activity_1mjy8uu" targetRef="Gateway_1asel57" />
     <bpmn:endEvent id="Event_1a7h6p0">
       <bpmn:incoming>Flow_10j9xa3</bpmn:incoming>
