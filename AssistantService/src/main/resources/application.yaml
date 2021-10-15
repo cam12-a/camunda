@@ -3,3 +3,12 @@ spring.datasource.url: jdbc:h2:file:./camunda-h2-database
 camunda.bpm.admin-user:
   id: demo
   password: demo
+
+spring:
+  jpa:
+    database-platform:  org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name:  org.postgresql.Driver

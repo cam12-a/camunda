@@ -14,5 +14,5 @@ import lombok.NoArgsConstructor;
 
 public class OperatorId {
     @JsonProperty
-    private String assistantId;
+    private String id_assistant;
 }

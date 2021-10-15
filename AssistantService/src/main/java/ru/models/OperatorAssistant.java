@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
+import java.util.*;
 
 
 @Data
@@ -20,6 +20,8 @@ import java.util.LinkedHashMap;
 
 @Service("OperatorAssistant")
 public class OperatorAssistant  {
-   private OperatorId operatorId;
+
+  @JsonProperty("operatorAssistant")
+   private List<Map<String,OperatorId>> operatorAssistant=new ArrayList<>();
 
 }
