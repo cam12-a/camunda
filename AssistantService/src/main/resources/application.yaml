@@ -4,6 +4,8 @@ camunda.bpm.admin-user:
   id: demo
   password: demo
 
+
+
 spring:
   jpa:
     database-platform:  org.hibernate.dialect.PostgreSQLDialect
@@ -12,3 +14,5 @@ spring:
     username: postgres
     password: demo
     driver-class-name:  org.postgresql.Driver
+server:
+  port: 8085

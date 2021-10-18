@@ -22,7 +22,7 @@ public class OperatorAssistantEntity {
     @PostMapping(value = "/addOperators/")
     public void addOperatorAssistant(@RequestBody OperatorAssistant operatorAssistant){
 
-        saveEntityTemporary.setEntities(operatorAssistant.getOperatorAssistant());
+         saveEntityTemporary.setEntities(operatorAssistant.getOperatorAssistant());
     }
 
     @GetMapping(value = "/OperatorAssistantList/{operatorId}")
