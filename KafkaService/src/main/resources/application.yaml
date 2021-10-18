@@ -3,13 +3,11 @@ spring.datasource.url: jdbc:h2:file:./camunda-h2-database
 camunda.bpm.admin-user:
   id: demo
   password: demo
-
-
+server:
+  port: 7070
 spring:
   kafka:
-    consumer:
+    producer:
+      value-serializer: JsonSerializer.class
       bootstrap-servers: kafka:7070
-      group-id: group_notification
-      key-deserializer: JsonDeserializer.class
-server:
-  port: 9090
+      
