@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1l10rqm" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_0mfvnor" isExecutable="true">
+    <bpmn:serviceTask id="Activity_0yt0dsr" name="Выбор руководителя и его помощника" camunda:delegateExpression="${OperatorAssistantService}">
+      <bpmn:incoming>Flow_09bzzr0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xte2m6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_0zys1hd" default="Flow_12o3hww">
+      <bpmn:incoming>Flow_0xte2m6</bpmn:incoming>
+      <bpmn:outgoing>Flow_1t7jw08</bpmn:outgoing>
+      <bpmn:outgoing>Flow_12o3hww</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_1isvz1h" default="Flow_1jx46tb">
+      <bpmn:incoming>Flow_1ehveg7</bpmn:incoming>
+      <bpmn:incoming>Flow_197t5ee</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jx46tb</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:parallelGateway id="Gateway_10epnc4">
+      <bpmn:incoming>Flow_1t7jw08</bpmn:incoming>
+      <bpmn:outgoing>Flow_08l67g5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_15438an</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:userTask id="waitForManagerAgreementInParallelProcess" name="согласование руководителем">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="dateFrom" label="Дата начала" type="date" />
+          <camunda:formField id="dateTo" label="Начала окончания" type="date" />
+          <camunda:formField id="reason" label="Причина отсутствия" type="string" />
+        </camunda:formData>
+        <camunda:taskListener delegateExpression="${AssignTaskToOperators}" event="create" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_08l67g5</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ehveg7</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="waitForManagerAssistantAgreement" name="согласование помощником">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="dateFrom" label="Дата начала" type="date" />
+          <camunda:formField id="dateTo" label="Начала окончания" type="date" />
+          <camunda:formField id="reason" label="Причина отсутствия" type="string" />
+        </camunda:formData>
+        <camunda:taskListener delegateExpression="${AssignTaskToOperators}" event="create" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_15438an</bpmn:incoming>
+      <bpmn:outgoing>Flow_197t5ee</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_1ohdvry">
+      <bpmn:incoming>Flow_1jx46tb</bpmn:incoming>
+      <bpmn:incoming>Flow_01mmbuy</bpmn:incoming>
+      <bpmn:outgoing>Flow_03ajqps</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1t7jw08" sourceRef="Gateway_0zys1hd" targetRef="Gateway_10epnc4">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">parallelWay==true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_12o3hww" sourceRef="Gateway_0zys1hd" targetRef="Activity_0kqy5ox" />
+    <bpmn:sequenceFlow id="Flow_1ehveg7" sourceRef="waitForManagerAgreementInParallelProcess" targetRef="Gateway_1isvz1h" />
+    <bpmn:sequenceFlow id="Flow_197t5ee" sourceRef="waitForManagerAssistantAgreement" targetRef="Gateway_1isvz1h" />
+    <bpmn:sequenceFlow id="Flow_1jx46tb" sourceRef="Gateway_1isvz1h" targetRef="Gateway_1ohdvry" />
+    <bpmn:sequenceFlow id="Flow_08l67g5" sourceRef="Gateway_10epnc4" targetRef="waitForManagerAgreementInParallelProcess" />
+    <bpmn:sequenceFlow id="Flow_15438an" sourceRef="Gateway_10epnc4" targetRef="waitForManagerAssistantAgreement" />
+    <bpmn:sequenceFlow id="Flow_0xte2m6" sourceRef="Activity_0yt0dsr" targetRef="Gateway_0zys1hd" />
+    <bpmn:userTask id="Activity_0kqy5ox" name="согласование руководителем" default="Flow_01mmbuy">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="dateFrom" label="Дата начала" type="date" />
+          <camunda:formField id="dateTo" label="Начала окончания" type="date" />
+          <camunda:formField id="reason" label="Причина отсутствия" type="string" />
+        </camunda:formData>
+        <camunda:taskListener delegateExpression="${AssignTaskToOperators}" event="create" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_12o3hww</bpmn:incoming>
+      <bpmn:outgoing>Flow_01mmbuy</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_01mmbuy" sourceRef="Activity_0kqy5ox" targetRef="Gateway_1ohdvry" />
+    <bpmn:exclusiveGateway id="Gateway_0upeoto" default="Flow_044vzlj">
+      <bpmn:incoming>Flow_1mcylfg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0x82eat</bpmn:outgoing>
+      <bpmn:outgoing>Flow_044vzlj</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_1xt4oa2" default="Flow_0um1h7v">
+      <bpmn:incoming>Flow_1xs4gql</bpmn:incoming>
+      <bpmn:incoming>Flow_1i9t2az</bpmn:incoming>
+      <bpmn:outgoing>Flow_0um1h7v</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:parallelGateway id="Gateway_0ulo5tw">
+      <bpmn:incoming>Flow_0x82eat</bpmn:incoming>
+      <bpmn:outgoing>Flow_0sfli9j</bpmn:outgoing>
+      <bpmn:outgoing>Flow_118oelj</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:userTask id="waitForHRAgreementInParallelProcess" name="согласование кадровиком">
+      <bpmn:extensionElements>
+        <camunda:taskListener delegateExpression="${AssignTaskToHR}" event="create" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0sfli9j</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xs4gql</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="waitForHRAssistantAgreement" name="согласование помощником">
+      <bpmn:extensionElements>
+        <camunda:taskListener delegateExpression="${AssignTaskToHR}" event="create" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_118oelj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1i9t2az</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_1dzcl94" name="согласование кадровиком" default="Flow_0l38yav">
+      <bpmn:extensionElements>
+        <camunda:taskListener delegateExpression="${AssignTaskToHR}" event="create" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_044vzlj</bpmn:incoming>
+      <bpmn:outgoing>Flow_0l38yav</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_0r7fiq5">
+      <bpmn:incoming>Flow_0um1h7v</bpmn:incoming>
+      <bpmn:incoming>Flow_0l38yav</bpmn:incoming>
+      <bpmn:outgoing>Flow_0awq98j</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0x82eat" sourceRef="Gateway_0upeoto" targetRef="Gateway_0ulo5tw">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">parallelWay==true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_044vzlj" sourceRef="Gateway_0upeoto" targetRef="Activity_1dzcl94" />
+    <bpmn:sequenceFlow id="Flow_1xs4gql" sourceRef="waitForHRAgreementInParallelProcess" targetRef="Gateway_1xt4oa2" />
+    <bpmn:sequenceFlow id="Flow_1i9t2az" sourceRef="waitForHRAssistantAgreement" targetRef="Gateway_1xt4oa2" />
+    <bpmn:sequenceFlow id="Flow_0um1h7v" sourceRef="Gateway_1xt4oa2" targetRef="Gateway_0r7fiq5" />
+    <bpmn:sequenceFlow id="Flow_0sfli9j" sourceRef="Gateway_0ulo5tw" targetRef="waitForHRAgreementInParallelProcess" />
+    <bpmn:sequenceFlow id="Flow_118oelj" sourceRef="Gateway_0ulo5tw" targetRef="waitForHRAssistantAgreement" />
+    <bpmn:sequenceFlow id="Flow_0l38yav" sourceRef="Activity_1dzcl94" targetRef="Gateway_0r7fiq5" />
+    <bpmn:sequenceFlow id="Flow_03ajqps" sourceRef="Gateway_1ohdvry" targetRef="Activity_0uv9bps" />
+    <bpmn:endEvent id="Event_0fv7c9a">
+      <bpmn:incoming>Flow_0awq98j</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0awq98j" sourceRef="Gateway_0r7fiq5" targetRef="Event_0fv7c9a" />
+    <bpmn:sequenceFlow id="Flow_1mcylfg" sourceRef="Activity_0uv9bps" targetRef="Gateway_0upeoto" />
+    <bpmn:serviceTask id="Activity_0uv9bps" name="Выбор кадровика и его помощника" camunda:delegateExpression="${HRAssistant}">
+      <bpmn:incoming>Flow_03ajqps</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mcylfg</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:startEvent id="Event_0m6t2mo" name="Заполнение информация" camunda:initiator="employee">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="dateFrom" label="Дата начала" type="date" />
+          <camunda:formField id="dateTo" label="Дата окончания" type="date" />
+          <camunda:formField id="reason" label="Причина отсутствия" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_09bzzr0</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_09bzzr0" sourceRef="Event_0m6t2mo" targetRef="Activity_0yt0dsr" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0mfvnor">
+      <bpmndi:BPMNEdge id="Flow_1t7jw08_di" bpmnElement="Flow_1t7jw08">
+        <di:waypoint x="560" y="265" />
+        <di:waypoint x="560" y="200" />
+        <di:waypoint x="605" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12o3hww_di" bpmnElement="Flow_12o3hww">
+        <di:waypoint x="560" y="315" />
+        <di:waypoint x="560" y="360" />
+        <di:waypoint x="700" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ehveg7_di" bpmnElement="Flow_1ehveg7">
+        <di:waypoint x="810" y="120" />
+        <di:waypoint x="910" y="120" />
+        <di:waypoint x="910" y="155" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_197t5ee_di" bpmnElement="Flow_197t5ee">
+        <di:waypoint x="800" y="240" />
+        <di:waypoint x="910" y="240" />
+        <di:waypoint x="910" y="205" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jx46tb_di" bpmnElement="Flow_1jx46tb">
+        <di:waypoint x="935" y="180" />
+        <di:waypoint x="990" y="180" />
+        <di:waypoint x="990" y="265" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08l67g5_di" bpmnElement="Flow_08l67g5">
+        <di:waypoint x="630" y="175" />
+        <di:waypoint x="630" y="120" />
+        <di:waypoint x="710" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15438an_di" bpmnElement="Flow_15438an">
+        <di:waypoint x="630" y="225" />
+        <di:waypoint x="630" y="240" />
+        <di:waypoint x="700" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xte2m6_di" bpmnElement="Flow_0xte2m6">
+        <di:waypoint x="460" y="290" />
+        <di:waypoint x="535" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01mmbuy_di" bpmnElement="Flow_01mmbuy">
+        <di:waypoint x="800" y="360" />
+        <di:waypoint x="990" y="360" />
+        <di:waypoint x="990" y="315" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03ajqps_di" bpmnElement="Flow_03ajqps">
+        <di:waypoint x="1015" y="290" />
+        <di:waypoint x="1100" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0awq98j_di" bpmnElement="Flow_0awq98j">
+        <di:waypoint x="1795" y="290" />
+        <di:waypoint x="1902" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0x82eat_di" bpmnElement="Flow_0x82eat">
+        <di:waypoint x="1340" y="265" />
+        <di:waypoint x="1340" y="200" />
+        <di:waypoint x="1385" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_044vzlj_di" bpmnElement="Flow_044vzlj">
+        <di:waypoint x="1340" y="315" />
+        <di:waypoint x="1340" y="360" />
+        <di:waypoint x="1480" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xs4gql_di" bpmnElement="Flow_1xs4gql">
+        <di:waypoint x="1590" y="120" />
+        <di:waypoint x="1690" y="120" />
+        <di:waypoint x="1690" y="155" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i9t2az_di" bpmnElement="Flow_1i9t2az">
+        <di:waypoint x="1580" y="240" />
+        <di:waypoint x="1690" y="240" />
+        <di:waypoint x="1690" y="205" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0um1h7v_di" bpmnElement="Flow_0um1h7v">
+        <di:waypoint x="1715" y="180" />
+        <di:waypoint x="1770" y="180" />
+        <di:waypoint x="1770" y="265" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0sfli9j_di" bpmnElement="Flow_0sfli9j">
+        <di:waypoint x="1410" y="175" />
+        <di:waypoint x="1410" y="120" />
+        <di:waypoint x="1490" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_118oelj_di" bpmnElement="Flow_118oelj">
+        <di:waypoint x="1410" y="225" />
+        <di:waypoint x="1410" y="240" />
+        <di:waypoint x="1480" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0l38yav_di" bpmnElement="Flow_0l38yav">
+        <di:waypoint x="1580" y="360" />
+        <di:waypoint x="1770" y="360" />
+        <di:waypoint x="1770" y="315" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mcylfg_di" bpmnElement="Flow_1mcylfg">
+        <di:waypoint x="1200" y="290" />
+        <di:waypoint x="1315" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09bzzr0_di" bpmnElement="Flow_09bzzr0">
+        <di:waypoint x="198" y="290" />
+        <di:waypoint x="360" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Gateway_0zys1hd_di" bpmnElement="Gateway_0zys1hd" isMarkerVisible="true">
+        <dc:Bounds x="535" y="265" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1isvz1h_di" bpmnElement="Gateway_1isvz1h" isMarkerVisible="true">
+        <dc:Bounds x="885" y="155" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_10epnc4_di" bpmnElement="Gateway_10epnc4">
+        <dc:Bounds x="605" y="175" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0sv2zyr_di" bpmnElement="waitForManagerAgreementInParallelProcess">
+        <dc:Bounds x="710" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ji2kii_di" bpmnElement="waitForManagerAssistantAgreement">
+        <dc:Bounds x="700" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1ohdvry_di" bpmnElement="Gateway_1ohdvry" isMarkerVisible="true">
+        <dc:Bounds x="965" y="265" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0kqy5ox_di" bpmnElement="Activity_0kqy5ox">
+        <dc:Bounds x="700" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0yt0dsr_di" bpmnElement="Activity_0yt0dsr">
+        <dc:Bounds x="360" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0upeoto_di" bpmnElement="Gateway_0upeoto" isMarkerVisible="true">
+        <dc:Bounds x="1315" y="265" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1xt4oa2_di" bpmnElement="Gateway_1xt4oa2" isMarkerVisible="true">
+        <dc:Bounds x="1665" y="155" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ulo5tw_di" bpmnElement="Gateway_0ulo5tw">
+        <dc:Bounds x="1385" y="175" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1dzcl94_di" bpmnElement="Activity_1dzcl94">
+        <dc:Bounds x="1480" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0r7fiq5_di" bpmnElement="Gateway_0r7fiq5" isMarkerVisible="true">
+        <dc:Bounds x="1745" y="265" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1mvnxdi_di" bpmnElement="waitForHRAgreementInParallelProcess">
+        <dc:Bounds x="1490" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18kf10y_di" bpmnElement="waitForHRAssistantAgreement">
+        <dc:Bounds x="1480" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0sahjt9_di" bpmnElement="Activity_0uv9bps">
+        <dc:Bounds x="1100" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0m6t2mo_di" bpmnElement="Event_0m6t2mo">
+        <dc:Bounds x="162" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="149" y="315" width="66" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0fv7c9a_di" bpmnElement="Event_0fv7c9a">
+        <dc:Bounds x="1902" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

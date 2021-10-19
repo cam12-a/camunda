@@ -64,6 +64,12 @@ public class ProcessDetails {
     }
 
 
+    /*public Task getTasksByProcessInstanceId(String processInstanceId){
+
+
+    }*/
+
+
 
 
 

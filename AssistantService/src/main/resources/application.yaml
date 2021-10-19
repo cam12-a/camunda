@@ -4,8 +4,6 @@ camunda.bpm.admin-user:
   id: demo
   password: demo
 
-
-
 spring:
   jpa:
     database-platform:  org.hibernate.dialect.PostgreSQLDialect

@@ -16,5 +16,7 @@ public class ApplicationData {
     private  Date dateTo;
     private String reason;
     private String status;
+    private boolean parallelWay;
+    private String submittedBy;
     private Mapping mapping;
 }

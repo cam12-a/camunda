@@ -23,7 +23,6 @@ public class SetStatusValue {
     @Autowired
     ApplicationData applicationData;
 
-    //private List<Task> tasksList=processDetails.taskList();
 
 
     public boolean validateStatusValue(String status){

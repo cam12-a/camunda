@@ -11,37 +11,14 @@ import java.util.logging.Logger;
 @Service("CallExternalService")
 public class CallExternalService {
 
-    private final Logger logger = Logger.getLogger(CallExternalService.class.getName());
-    public void externalTask(String topic){
-        System.out.println("okok");
+    public Object executeExternalService(String url, Object classToParse){
+        WebClient webClient = WebClient.create();
+        return webClient.get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(classToParse.getClass())
+                .block();
 
-        ExternalTaskClient client= ExternalTaskClient.create()
-                .baseUrl("http://localhost:8085/addOperators/")
-                .asyncResponseTimeout(10000)
-                .build();
-
-       client.subscribe(topic)
-               .lockDuration(1000)
-               .handler((externalTask, externalTaskService) -> {
-                   logger.info("назначение руководителю и еще помощнику если он имеется");
-                   try {
-
-                       WebClient webClient = WebClient.create();
-                       String a= webClient.get()
-                               .uri("http://localhost:8085/OperatorAssistantList/"+"operatorId"+"/")
-                                .retrieve()
-                                .bodyToMono(String.class)
-                               .block();
-
-                       System.out.println(a);
-
-                   }catch (Exception ex){
-                        System.out.println(ex.getMessage());
-                   }
-
-               }).open();
-
-       externalTask("manager-assistant");
     }
 
 
