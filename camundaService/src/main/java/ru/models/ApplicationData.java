@@ -18,5 +18,6 @@ public class ApplicationData {
     private String status;
     private boolean parallelWay;
     private String submittedBy;
+    boolean performedByManager;
     private Mapping mapping;
 }

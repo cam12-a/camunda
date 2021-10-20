@@ -47,7 +47,7 @@ public class SetStatusValue {
 
 
     public void deleteAssistantTaskAfterManagerAgreement(Task task){
-        ProcessEngines.getDefaultProcessEngine().getTaskService().complete(task.getId()); ;
+        ProcessEngines.getDefaultProcessEngine().getTaskService().deleteTask(task.getId(),true); ;
 
     }
 

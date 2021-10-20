@@ -7,10 +7,12 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import ru.Services.AssignTask;
 import ru.Services.CallExternalService;
 import ru.Services.ProcessDetails;
 import ru.models.ApplicationData;
+import ru.models.Notifications;
 
 import javax.inject.Named;
 import java.util.HashMap;
@@ -28,6 +30,12 @@ public class OperatorAssistantService implements JavaDelegate {
     AssignTask assignTask;
     @Autowired
     ApplicationData applicationData;
+    @Autowired
+    Notifications notifications;
+
+    @Autowired
+    private KafkaTemplate<String, Notifications> kafkaTemplate;
+    private static final String TOPIC="notification";
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
@@ -42,14 +50,28 @@ public class OperatorAssistantService implements JavaDelegate {
 
         applicationData.setSubmittedBy(delegateExecution.getProcessEngine().getIdentityService().getCurrentAuthentication().getUserId());
 
+        notifications.setNotificationHeader("Заявка на отсутствие в рабочее время");
+        notifications.setNotificationText("Вам поступила заявка от сотрудника "+applicationData.getSubmittedBy());
         if(operators.get(operator)==null){
             applicationData.setParallelWay(false);
             delegateExecution.setVariable("parallelWay",false);
+            notifications.setReceiverId(operator);
+            kafkaTemplate.send(TOPIC, notifications);
         }
         else {
             applicationData.setParallelWay(true);
             delegateExecution.setVariable("parallelWay", true);
+            notifications.setReceiverId(operator);
+            kafkaTemplate.send(TOPIC, notifications);
+            notifications.setReceiverId(operators.get(operator));
+            kafkaTemplate.send(TOPIC, notifications);
         }
+
+        //callExternalService.executeExternalServicePostMethod("http://localhost:9090/kafka/publish",notifications);
+
+
+
+
 
     }
 }

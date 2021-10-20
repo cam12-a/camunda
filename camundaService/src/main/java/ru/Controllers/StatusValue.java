@@ -33,12 +33,15 @@ public class StatusValue {
     ApplicationData applicationData;
     @Autowired
     AssignTask assignTask;
+    @Autowired
+    Mapping mapping;
 
     @PostMapping(value="/status/")
     public void changeStatus(@RequestBody Mapping statusModel){
+        mapping.setStatusModel(statusModel.getStatusModel());
 
         List<Task> taskList=new ArrayList<>();
-        boolean performedByManager=false;
+       applicationData.setPerformedByManager(false);
 
 
         String[] parseStrToDate=statusModel.getStatusModel().getDateFrom().toString().split("-");
@@ -66,7 +69,7 @@ public class StatusValue {
             variableInstance= (String) ProcessEngines.getDefaultProcessEngine().getTaskService()
                     .getVariable(task.getId(),"status");
 
-            System.out.println(task+"taskdefkey "+task.getTaskDefinitionKey());
+           // System.out.println(task+"taskdefkey "+task.getTaskDefinitionKey());
 
             if(group.getId().equals("assistant") && variableInstance.equals("waitingForAgreement")){
                 setStatusValue.updateStatus(task,statusModel.getStatusModel().getStatus());
@@ -82,15 +85,19 @@ public class StatusValue {
                 variableInstance= (String) ProcessEngines.getDefaultProcessEngine().getTaskService()
                         .getVariable(task.getId(),"status");
                 //Закыртие задачи у помощника
-                performedByManager=true;
-                System.out.println("veri " + task + " status " + variableInstance+" assi "+task.getAssignee());
+                applicationData.setPerformedByManager(true);
+                //System.out.println("veri " + task + " status " + variableInstance+" assi "+task.getAssignee());
                 //двигаем процесс на следующий шаг
                 setStatusValue.moveProcessForward(task);
             }
-            if(performedByManager){
+            if(applicationData.isPerformedByManager()){
                 if(task.getTaskDefinitionKey().equals("waitForManagerAssistantAgreement") || task.getTaskDefinitionKey().equals("waitForHRAssistantAgreement")){
-                    System.out.println("deleting "+task.getTaskDefinitionKey());
-                    setStatusValue.deleteAssistantTaskAfterManagerAgreement(task);
+                   // System.out.println("deleting "+task.getTaskDefinitionKey());
+                    try{
+                        setStatusValue.deleteAssistantTaskAfterManagerAgreement(task);
+                    }catch(Exception ex){
+
+                    }
                 }
 
             }

@@ -40,6 +40,7 @@ public class AssignTaskToOperators implements TaskListener {
         delegateTask.setAssignee(manager);
         assignTask.assignTaskToOperations(applicationData.isParallelWay(), "waitForManagerAgreementInParallelProcess","waitForManagerAssistantAgreement",manager,assistant,delegateTask);
 
+
     }
 
 
