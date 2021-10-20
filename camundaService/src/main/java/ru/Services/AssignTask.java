@@ -2,6 +2,7 @@ package ru.Services;
 
 import org.camunda.bpm.engine.ProcessEngines;
 import org.camunda.bpm.engine.delegate.DelegateTask;
+import org.camunda.bpm.engine.identity.Group;
 import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,4 +38,22 @@ public class AssignTask {
                 .memberOfGroup(groupId)
                 .list();
     }
+
+
+    public boolean UserCantPerformTask(Task task, String assignedId){
+        if(task.getAssignee().equals(assignedId))
+            return true;
+        else
+            return false;
+    }
+
+    public Group getUserDetails(String userId){
+        return ProcessEngines.getDefaultProcessEngine()
+                .getIdentityService()
+                .createGroupQuery()
+                .groupMember(userId)
+                .singleResult();
+    }
+
+
 }

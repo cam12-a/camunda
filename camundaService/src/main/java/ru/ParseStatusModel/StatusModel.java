@@ -10,11 +10,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StatusModel {
+
     @JsonProperty
-    private StatusModelFields approved;
+    private String name;
     @JsonProperty
-    private StatusModelFields cancelled;
+    private String notificationText;
     @JsonProperty
-    private StatusModelFields executed;
+    private String notificationHeader;
+    @JsonProperty
+    private String authorName;
+    @JsonProperty
+    private String assignedTo;
+    @JsonProperty
+    private boolean trigger;
+    @JsonProperty
+    private String dateFrom;
+    @JsonProperty
+    private String dateTo;
+    @JsonProperty(required = true)
+    private String status;
 
 }

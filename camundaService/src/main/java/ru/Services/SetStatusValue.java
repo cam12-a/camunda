@@ -11,6 +11,7 @@ import ru.models.ApplicationData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @Service("SetStatusValue")
@@ -27,45 +28,16 @@ public class SetStatusValue {
 
     public boolean validateStatusValue(String status){
 
-        if(status.equals("Approved") || status.equals("Cancelled") || status.equals("Executed"))
+        if(status.equals("Approved") || status.equals("Rejected") || status.equals("Executed"))
             return true;
         else
             return false;
 
     }
 
-    public void statusUpdateByManagerOrAssistance(String statusValue){
 
-        if(validateStatusValue(statusValue)) {
-            lastStatusValue = applicationData.getStatus();
-            List<Task> taskList = new ArrayList<>();
-
-            if (applicationData.getMapping().getStatusModel().getApproved() != null && applicationData.getMapping()
-                    .getStatusModel().getCancelled() == null)
-                taskList = processDetails.getTasksAppliedByAuthorName(applicationData.getMapping()
-                        .getStatusModel().getApproved().getAuthorName(), applicationData.getDateFrom(), applicationData.getDateTo());
-            else
-                taskList = processDetails.getTasksAppliedByAuthorName(applicationData.getMapping()
-                        .getStatusModel().getCancelled().getAuthorName(), applicationData.getDateFrom(), applicationData.getDateTo());
-
-            for (Task task : taskList) {
-                ProcessEngines.getDefaultProcessEngine().getRuntimeService()
-                        .setVariable(task.getProcessInstanceId(), "status", statusValue);
-            }
-        }
-
-
-    }
 
     public void moveProcessForward(Task task){
-
-        /*
-        ProcessEngines.getDefaultProcessEngine().getRuntimeService().signal(
-                ProcessEngines.getDefaultProcessEngine().getRuntimeService()
-                .createExecutionQuery()
-                .activityId(task.getId())
-                .singleResult().getId());
-                */
 
         ProcessEngines.getDefaultProcessEngine().getTaskService().complete(task.getId());
 
@@ -75,7 +47,7 @@ public class SetStatusValue {
 
 
     public void deleteAssistantTaskAfterManagerAgreement(Task task){
-        ProcessEngines.getDefaultProcessEngine().getTaskService().deleteTask(task.getId(),true); ;
+        ProcessEngines.getDefaultProcessEngine().getTaskService().complete(task.getId()); ;
 
     }
 
@@ -87,27 +59,16 @@ public class SetStatusValue {
             return true;
     }
 
-    public void statusUpdateByHrOrHrAssistant(String statusValue) {
+    public void updateStatus(Task task,String statusValue) {
 
         if (validateStatusValue(statusValue)) {
-
+            System.out.println("In Status Set");
             lastStatusValue = applicationData.getStatus();
-            List<Task> taskList = new ArrayList<>();
 
-            if (applicationData.getMapping().getStatusModel().getApproved() != null && applicationData.getMapping().getStatusModel().getExecuted() == null)
-                taskList = processDetails.getTasksAppliedByAuthorName(applicationData.getMapping()
-                        .getStatusModel().getExecuted().getAuthorName(), applicationData.getDateFrom(), applicationData.getDateTo());
-            else
-                taskList = processDetails.getTasksAppliedByAuthorName(applicationData.getMapping()
-                        .getStatusModel().getExecuted().getAuthorName(), applicationData.getDateFrom(), applicationData.getDateTo());
+                ProcessEngines.getDefaultProcessEngine().getTaskService()
+                        .setVariable(task.getId(), "status", statusValue);
 
-            for (Task task : taskList) {
-                if (accessPermission(task))
-                    ProcessEngines.getDefaultProcessEngine().getRuntimeService()
-                            .setVariable(task.getProcessInstanceId(), "status", statusValue);
-            }
         }
     }
-
 
 }

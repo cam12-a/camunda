@@ -10,6 +10,6 @@ import ru.ParseStatusModel.StatusModel;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Mapping {
-    @JsonProperty(required = false)
-    private StatusModel statusModel;
+    @JsonProperty
+    private StatusModel StatusModel;
 }

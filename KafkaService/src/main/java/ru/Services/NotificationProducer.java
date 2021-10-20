@@ -15,7 +15,7 @@ public class NotificationProducer {
     KafkaProperties kafkaProperties;
     @Autowired
     KafkaTemplate<String, Notifications> notificationsKafkaTemplate;
-    private static final String TOPIC_NAME = "Notifications";
+    private static final String TOPIC_NAME = "notifications";
 
     public String sendNotification(@RequestBody Notifications notifications) {
         String errorMessage="";
