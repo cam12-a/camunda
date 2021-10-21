@@ -4,6 +4,8 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
+import ru.Services.AssignTask;
+import ru.Services.SendNotificationsService;
 import ru.models.ApplicationData;
 import ru.models.Mapping;
 import ru.models.Notifications;
@@ -20,6 +22,10 @@ public class SendNotifications implements JavaDelegate {
     ApplicationData applicationData;
     @Autowired
     Notifications notification;
+    @Autowired
+    AssignTask assignTask;
+    @Autowired
+    SendNotificationsService sendNotificationsService;
 
     @Autowired
     private KafkaTemplate<String, Notifications> kafkaTemplate;
@@ -27,13 +33,23 @@ public class SendNotifications implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        System.out.println("Rejected");
-        notification.setNotificationHeader("Кабинет руководителя");
-        notification.setReceiverId(applicationData.getSubmittedBy());
-        if(applicationData.isPerformedByManager())
-            notification.setNotificationText("Ваша заявка была отклонена вашим руководителем");
-        else
-            notification.setNotificationText("Ваша заявка была отклонена помощником руководителя");
+        //System.out.println("Rejected");
+       // if(assignTask.getUserGroupDetails(mapping.getStatusModel().getAssignedTo()).equals("operator") || assignTask.getUserGroupDetails(mapping.getStatusModel().getAssignedTo()).equals("assistant")) {
+
+            //sendNotificationsService.notifyOwner(applicationData.getSubmittedBy(),mapping.getStatusModel().getNotificationHeader(),mapping.getStatusModel().getNotificationText());
+            notification.setNotificationHeader(mapping.getStatusModel().getNotificationHeader());
+            notification.setReceiverId(applicationData.getSubmittedBy());
+            if (applicationData.isPerformedByManager()) {
+
+                notification.setNotificationText(mapping.getStatusModel().getNotificationText()+" a");
+            }
+            else {
+                notification.setNotificationText(mapping.getStatusModel().getNotificationText()+" b");
+            }
+      //  }
+      //  if(assignTask.getUserGroupDetails(mapping.getStatusModel().getAssignedTo()).equals("hrGroup") || assignTask.getUserGroupDetails(mapping.getStatusModel().getAssignedTo()).equals("hrAssisatnt")){
+
+      //  }
 
         kafkaTemplate.send(TOPIC,notification);
     }

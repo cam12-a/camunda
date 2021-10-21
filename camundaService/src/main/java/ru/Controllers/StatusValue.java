@@ -61,7 +61,7 @@ public class StatusValue {
         for(Task task : taskList){
             String variableInstance="";
            //Определим роль пользователя
-            Group group=assignTask.getUserDetails(statusModel.getStatusModel().getAssignedTo());
+            Group group=assignTask.getUserGroupDetails(statusModel.getStatusModel().getAssignedTo());
             /**
              *  Проверяем заявка была ли ранее согласована руководителем или кодравиком, если да,
              *  то при согласовании помощником изменения не будут выполнены
@@ -71,7 +71,9 @@ public class StatusValue {
 
            // System.out.println(task+"taskdefkey "+task.getTaskDefinitionKey());
 
-            if(group.getId().equals("assistant") && variableInstance.equals("waitingForAgreement")){
+
+
+            if((group.getId().equals("assistant") || group.getId().equals("hrAssistant")) && variableInstance.equals("waitingForAgreement")){
                 setStatusValue.updateStatus(task,statusModel.getStatusModel().getStatus());
                 applicationData.setStatus(statusModel.getStatusModel().getStatus());
                 //двигаем процесс на следующий шаг
@@ -89,15 +91,13 @@ public class StatusValue {
                 //System.out.println("veri " + task + " status " + variableInstance+" assi "+task.getAssignee());
                 //двигаем процесс на следующий шаг
                 setStatusValue.moveProcessForward(task);
+
             }
             if(applicationData.isPerformedByManager()){
                 if(task.getTaskDefinitionKey().equals("waitForManagerAssistantAgreement") || task.getTaskDefinitionKey().equals("waitForHRAssistantAgreement")){
                    // System.out.println("deleting "+task.getTaskDefinitionKey());
-                    try{
-                        setStatusValue.deleteAssistantTaskAfterManagerAgreement(task);
-                    }catch(Exception ex){
+                    setStatusValue.moveProcessForward(task);
 
-                    }
                 }
 
             }
@@ -108,6 +108,9 @@ public class StatusValue {
 
 
         }
+
+
+
 
         System.out.println(statusModel.toString());
     }

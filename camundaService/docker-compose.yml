@@ -1,0 +1,43 @@
+version: "3"
+
+
+services:
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: 1
+    ports:
+      - "2181:2181"
+
+    container_name: zookeeper
+
+  kafka:
+    image: 'bitnami/kafka:latest'
+    depends_on:
+      - zookeeper
+    container_name: kafka
+    environment:
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      ALLOW_PLAINTEXT_LISTENER: 1
+    ports:
+      - "9092:9092"
+
+
+  camundaService:
+    image: camunda_service:v1.0
+    ports:
+      - "8081:8081"
+    container_name: camundaService
+
+  assistantService:
+    image: assistant_service:v1.0
+    ports:
+      - "8085:8085"
+    container_name: assistant_service
+
+
+  kafkaNotificationService:
+    image: kafka_notification_service:v1.0
+    ports:
+      - "7070:7070"
+    container_name: kafka_notification_service

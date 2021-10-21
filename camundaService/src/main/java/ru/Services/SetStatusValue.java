@@ -39,15 +39,22 @@ public class SetStatusValue {
 
     public void moveProcessForward(Task task){
 
-        ProcessEngines.getDefaultProcessEngine().getTaskService().complete(task.getId());
+        try{
+            ProcessEngines.getDefaultProcessEngine().getTaskService().complete(task.getId());
+        }catch(Exception e){
+            System.out.println("moved error "+e.getMessage());
+        }
 
     }
 
 
-
-
     public void deleteAssistantTaskAfterManagerAgreement(Task task){
-        ProcessEngines.getDefaultProcessEngine().getTaskService().deleteTask(task.getId(),true); ;
+
+        try{
+            ProcessEngines.getDefaultProcessEngine().getTaskService().deleteTask(task.getId(),true);
+        }catch(Exception e){
+            System.out.println("deleteEx "+e.getMessage());
+        }
 
     }
 

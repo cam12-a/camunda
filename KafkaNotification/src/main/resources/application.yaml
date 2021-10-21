@@ -8,4 +8,21 @@ camunda.bpm.admin-user:
 server:
   port: 7070
 
+camunda:
+  bpm:
+    generic-properties:
+      properties:
+        userResourceWhitelistPattern: ".+"
+    database:
+      type: postgres
+
+spring:
+  jpa:
+    database-platform: ${PLATFORM}
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: ${DB_DRIVER}
+
 
