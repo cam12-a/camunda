@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.camunda.bpm.engine.ProcessEngines;
 import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.runtime.ActivityInstance;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,10 +50,32 @@ public class SetStatusValue {
     }
 
 
-    public void deleteAssistantTaskAfterManagerAgreement(Task task){
+    public void deleteAssistantTaskAfterManagerAgreement(String activityId,Task task){
 
         try{
-            ProcessEngines.getDefaultProcessEngine().getTaskService().deleteTask(task.getId(),true);
+
+            System.out.println("ProcessId "+ ProcessEngines.getDefaultProcessEngine().getRuntimeService()
+            .getActivityInstance(task.getProcessInstanceId()).getChildActivityInstances()[0].getActivityId()+ " dsf "+ProcessEngines.getDefaultProcessEngine().getRuntimeService()
+                    .getActivityInstance(task.getProcessInstanceId()));
+
+            ActivityInstance activityInstances=ProcessEngines.getDefaultProcessEngine().getRuntimeService()
+                    .getActivityInstance(task.getProcessInstanceId());
+
+            ProcessEngines.getDefaultProcessEngine().getRuntimeService()
+                    .createProcessInstanceModification(task.getProcessInstanceId())
+                    .cancelActivityInstance(activityInstances.getActivityInstances(activityId)[0].getId())
+                    .execute();
+
+            for(int i=0;i<activityInstances.getActivityInstances(activityId).length;i++){
+                if(activityInstances.getActivityInstances(activityId)[i].getActivityId().contains(activityId)){
+                    System.out.println("acID "+activityInstances.getActivityInstances(activityId)[i].toString());
+
+                    break;
+                }
+            }
+
+
+
         }catch(Exception e){
             System.out.println("deleteEx "+e.getMessage());
         }

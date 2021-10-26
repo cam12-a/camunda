@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.Services.AssignTask;
 import ru.Services.CallExternalService;
 import ru.models.ApplicationData;
+import ru.models.Mapping;
 
 import javax.inject.Named;
 import java.util.HashMap;
@@ -20,28 +21,54 @@ import java.util.Map;
 
 @Named("AssignTaskToOperators")
 public class AssignTaskToOperators implements TaskListener {
-
    @Autowired
     ApplicationData applicationData;
    @Autowired
     CallExternalService callExternalService;
    @Autowired
     AssignTask assignTask;
+   @Autowired
+   Mapping mapping;
 
     @Override
     public void notify(DelegateTask delegateTask) {
 
         Map<String, String> operators = new HashMap<>();
-        operators=(Map<String, String>) callExternalService.executeExternalService("http://localhost:8085/OperatorAssistantList/"+applicationData.getSubmittedBy(),operators);
-        String manager=operators.get(applicationData.getSubmittedBy());
-        operators= (Map<String, String>) callExternalService.executeExternalService("http://localhost:8085/OperatorAssistantList/"+manager,operators);
 
-        String assistant=operators.get(manager);
-        delegateTask.setAssignee(manager);
-        assignTask.assignTaskToOperations(applicationData.isParallelWay(), "waitForManagerAgreementInParallelProcess","waitForManagerAssistantAgreement",manager,assistant,delegateTask);
+        String operator="";
+        String assistant="";
 
+
+
+            operator = "";
+            assistant = "";
+            for (Map.Entry<String, String> entry : assignTask.getAssignerByEmployeeId(applicationData.getSubmittedBy()).entrySet()) {
+                operator = entry.getKey();
+                assistant = entry.getValue();
+
+            }
+            assistant = operators.get(operator);
+            delegateTask.setAssignee(operator);
+            assignTask.assignTaskToOperations(applicationData.isParallelWay(), "waitForManagerAgreementInParallelProcess", "waitForManagerAssistantAgreement", operator, assistant, delegateTask);
+
+
+        if(delegateTask.getTaskDefinitionKey().equals("waitForHRAgreementInParallelProcess") || delegateTask.getTaskDefinitionKey().equals("waitForHRAssistantAgreement")
+        || delegateTask.getTaskDefinitionKey().equals("waitForHRAgreementInProcess")){
+            List<User> users=assignTask.getUserByGroupId("hrGroup");
+            operators=new HashMap<>();
+            operator="";
+            assistant="";
+            for(Map.Entry<String, String> entry : assignTask.getAssigner(users.get(0).getId()).entrySet()) {
+                operator=entry.getKey();
+                assistant=entry.getValue();
+            }
+
+            delegateTask.setAssignee(users.get(0).getId());
+            assignTask.assignTaskToOperations(applicationData.isParallelWay(), "waitForHRAgreementInParallelProcess","waitForHRAssistantAgreement",users.get(0).getId(),assistant,delegateTask);
+        }
 
     }
+
 
 
 }

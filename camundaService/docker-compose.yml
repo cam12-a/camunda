@@ -1,5 +1,8 @@
 version: "3"
 
+networks:
+  app-tier:
+    driver: bridge
 
 services:
   zookeeper:
@@ -8,7 +11,8 @@ services:
       ALLOW_ANONYMOUS_LOGIN: 1
     ports:
       - "2181:2181"
-
+    networks:
+      - app-tier
     container_name: zookeeper
 
   kafka:
@@ -21,23 +25,31 @@ services:
       ALLOW_PLAINTEXT_LISTENER: 1
     ports:
       - "9092:9092"
-
+    networks:
+      - app-tier
 
   camundaService:
     image: camunda_service:v1.0
     ports:
-      - "8081:8081"
+      - 8081:8081
     container_name: camundaService
+    links:
+      - assistantService
+    networks:
+      - app-tier
 
   assistantService:
     image: assistant_service:v1.0
     ports:
-      - "8085:8085"
-    container_name: assistant_service
-
+      - 8085:8085
+    container_name: assistantService
+    networks:
+      - app-tier
 
   kafkaNotificationService:
     image: kafka_notification_service:v1.0
     ports:
-      - "7070:7070"
+      - 7070:7070
     container_name: kafka_notification_service
+    networks:
+      - app-tier

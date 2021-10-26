@@ -3,6 +3,7 @@ package ru.Delegates;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.identity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import ru.Services.AssignTask;
@@ -15,6 +16,7 @@ import ru.models.Notifications;
 
 import javax.inject.Named;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Named("OperatorAssistantService")
@@ -44,20 +46,23 @@ public class OperatorAssistantService implements JavaDelegate {
 
        String operator="";
        String assistant="";
-        for(Map.Entry<String, String> entry : assignTask.getAssignerByEmployeeId(delegateExecution.getProcessEngine().getIdentityService().getCurrentAuthentication().getUserId()).entrySet()) {
-            operator=entry.getKey();
-            assistant=entry.getValue();
 
-        }
+      // if(delegateExecution.getProcessEngine().getIdentityService().getCurrentAuthentication()!=null && mapping.getStatusModel().getAuthorName()!=null &&
+       //        delegateExecution.getProcessEngine().getIdentityService().getCurrentAuthentication().getUserId().equals(mapping.getStatusModel().getAuthorName())){
+           for (Map.Entry<String, String> entry : assignTask.getAssignerByEmployeeId(delegateExecution.getProcessEngine().getIdentityService().getCurrentAuthentication().getUserId()).entrySet()) {
+               operator = entry.getKey();
+               assistant = entry.getValue();
 
-        assignTask.getWay(assistant,delegateExecution);
-
-        applicationData.setSubmittedBy(delegateExecution.getProcessEngine().getIdentityService().getCurrentAuthentication().getUserId());
-
+           }
+           System.out.println("here");
 
 
-        sendNotifications.notifyOperator("Заявка на отсутствие в рабочее время","Заявка была согласована руководителем, пожалуйста, обработайте ее",operator,assistant);
+           assignTask.getWay(assistant, delegateExecution);
 
+           applicationData.setSubmittedBy(delegateExecution.getProcessEngine().getIdentityService().getCurrentAuthentication().getUserId());
+
+
+           sendNotifications.notifyOperator("Заявка на отсутствие в рабочее время", "Заявка была согласована руководителем, пожалуйста, обработайте ее", operator, assistant);
 
 
     }

@@ -73,7 +73,7 @@ public class StatusValue {
 
 
 
-            if((group.getId().equals("assistant") || group.getId().equals("hrAssistant")) && variableInstance.equals("waitingForAgreement")){
+           if((group.getId().equals("assistant") || group.getId().equals("hrAssistant")) && variableInstance.equals("waitingForAgreement")){
                 setStatusValue.updateStatus(task,statusModel.getStatusModel().getStatus());
                 applicationData.setStatus(statusModel.getStatusModel().getStatus());
                 //двигаем процесс на следующий шаг
@@ -82,6 +82,7 @@ public class StatusValue {
 
             //Согласование заявки руководителем или кадровиком
             if(assignTask.UserCantPerformTask(task,statusModel.getStatusModel().getAssignedTo())){
+                System.out.println("manager ");
                 setStatusValue.updateStatus(task,statusModel.getStatusModel().getStatus());
                 applicationData.setStatus(statusModel.getStatusModel().getStatus());
                 variableInstance= (String) ProcessEngines.getDefaultProcessEngine().getTaskService()
@@ -95,8 +96,11 @@ public class StatusValue {
             }
             if(applicationData.isPerformedByManager()){
                 if(task.getTaskDefinitionKey().equals("waitForManagerAssistantAgreement") || task.getTaskDefinitionKey().equals("waitForHRAssistantAgreement")){
-                   // System.out.println("deleting "+task.getTaskDefinitionKey());
-                    setStatusValue.moveProcessForward(task);
+                    System.out.println("deleting "+task.getTaskDefinitionKey());
+                    if(assignTask.getUserGroupDetails(mapping.getStatusModel().getAssignedTo()).getId().equals("operator"))
+                        setStatusValue.deleteAssistantTaskAfterManagerAgreement("waitForManagerAssistantAgreement",task);
+                    if(assignTask.getUserGroupDetails(mapping.getStatusModel().getAssignedTo()).getId().equals("hrGroup"))
+                        setStatusValue.deleteAssistantTaskAfterManagerAgreement("waitForHRAssistantAgreement",task);
 
                 }
 

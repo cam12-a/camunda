@@ -17,6 +17,7 @@ public class ApplicationData {
     private String reason;
     private String status;
     private boolean parallelWay;
+    private boolean delegateToWorkGroup;
     private String submittedBy;
     boolean performedByManager;
     private Mapping mapping;

@@ -30,9 +30,12 @@ public class AssignTaskToHR implements TaskListener {
     public void notify(DelegateTask delegateTask) {
         List<User> users=assignTask.getUserByGroupId("hrGroup");
         Map<String, String> operators=new HashMap<>();
+        String operator="";
         String assistant="";
-        operators= (Map<String, String>) callExternalService.executeExternalService("http://localhost:8085/OperatorAssistantList/"+users.get(0).getId(),operators);
-        assistant=operators.get(users.get(0).getId());
+        for(Map.Entry<String, String> entry : assignTask.getAssigner(users.get(0).getId()).entrySet()) {
+            operator=entry.getKey();
+            assistant=entry.getValue();
+        }
 
         delegateTask.setAssignee(users.get(0).getId());
         assignTask.assignTaskToOperations(applicationData.isParallelWay(), "waitForHRAgreementInParallelProcess","waitForHRAssistantAgreement",users.get(0).getId(),assistant,delegateTask);

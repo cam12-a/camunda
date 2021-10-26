@@ -4,5 +4,6 @@ RUN apt-get install openjdk-16-jdk -y
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 COPY env.sh env.sh
+EXPOSE 8085
 
-ENTRYPOINT ["/bin/bash" , "-c", "source env.sh && printenv && java -jar /app.jar"]
+ENTRYPOINT ["/bin/bash" , "-c", "source /env.sh && printenv && java -jar /app.jar"]

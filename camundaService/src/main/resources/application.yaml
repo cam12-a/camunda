@@ -12,6 +12,7 @@ camunda:
     database:
       type: postgres
 
+
 spring:
   jpa:
     database-platform: ${PLATFORM}
@@ -20,5 +21,6 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: ${DB_DRIVER}
+
 server:
   port: 8081

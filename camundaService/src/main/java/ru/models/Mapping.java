@@ -13,5 +13,5 @@ import ru.ParseStatusModel.StatusModel;
 @Component
 public class Mapping {
     @JsonProperty
-    private StatusModel StatusModel;
+    private StatusModel StatusModel=new StatusModel();
 }
