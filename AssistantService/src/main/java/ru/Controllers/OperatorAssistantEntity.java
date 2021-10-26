@@ -1,6 +1,8 @@
 package ru.Controllers;
 
 
+import org.camunda.bpm.engine.ProcessEngines;
+import org.camunda.bpm.engine.delegate.BpmnError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.models.OperatorAssistant;
@@ -35,6 +37,7 @@ public class OperatorAssistantEntity {
                 entities.put(operatorId,opAssistant.get(i).get(operatorId).getId_assistant());
             }catch (Exception e){
                  entities.put("error","данного оператора не существует");
+                BpmnError bpmnError=new BpmnError("error");
             }
         }
         return entities;

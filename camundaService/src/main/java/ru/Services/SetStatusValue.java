@@ -1,6 +1,7 @@
 package ru.Services;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.camunda.bpm.engine.ProcessEngines;
 import org.camunda.bpm.engine.TaskService;
@@ -14,7 +15,9 @@ import ru.models.ApplicationData;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 
 @Service("SetStatusValue")
 public class SetStatusValue {

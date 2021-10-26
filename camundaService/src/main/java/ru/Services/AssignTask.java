@@ -70,6 +70,9 @@ public class AssignTask {
         //Получение помощника руководителя
         operators= (Map<String, String>) callExternalService.executeExternalService("assistantService:8085/OperatorAssistantList/"+operators.get(userId),operators);
         System.out.println("op ass "+operators);
+
+
+
         return  operators;
     }
 

@@ -19,6 +19,7 @@ public class ApplicationData {
     private boolean parallelWay;
     private boolean delegateToWorkGroup;
     private String submittedBy;
+    private String ErrorWhilePushingKafkaMessage;
     boolean performedByManager;
     private Mapping mapping;
 }

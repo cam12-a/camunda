@@ -64,7 +64,11 @@ public class HRAssistant implements JavaDelegate {
         }
         delegateExecution.setVariable("parallelWay",applicationData.isParallelWay());
 
-        sendNotifications.notifyOperator(mapping.getStatusModel().getNotificationHeader(),mapping.getStatusModel().getNotificationText(),operator,assistant);
+        try {
+            sendNotifications.notifyOperator(mapping.getStatusModel().getNotificationHeader(),mapping.getStatusModel().getNotificationText(),operator,assistant);
+        }catch (Exception e){
+            applicationData.setErrorWhilePushingKafkaMessage("error");
+        }
 
 
 

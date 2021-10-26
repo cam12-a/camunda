@@ -51,6 +51,10 @@ public class SendNotifications implements JavaDelegate {
 
       //  }
 
-        kafkaTemplate.send(TOPIC,notification);
+        try {
+            kafkaTemplate.send(TOPIC,notification);
+        }catch (Exception e){
+            applicationData.setErrorWhilePushingKafkaMessage("error");
+        }
     }
 }

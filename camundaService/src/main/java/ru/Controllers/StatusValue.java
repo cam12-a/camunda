@@ -73,7 +73,8 @@ public class StatusValue {
 
 
 
-           if((group.getId().equals("assistant") || group.getId().equals("hrAssistant")) && variableInstance.equals("waitingForAgreement")){
+           if((assignTask.getUserGroupDetails(mapping.getStatusModel().getAssignedTo()).getId().equals("assistant") || assignTask.getUserGroupDetails(mapping.getStatusModel().getAssignedTo()).getId().equals("hrAssistant")) &&
+                   assignTask.UserCantPerformTask(task,statusModel.getStatusModel().getAssignedTo())){
                 setStatusValue.updateStatus(task,statusModel.getStatusModel().getStatus());
                 applicationData.setStatus(statusModel.getStatusModel().getStatus());
                 //двигаем процесс на следующий шаг
@@ -81,7 +82,8 @@ public class StatusValue {
             }
 
             //Согласование заявки руководителем или кадровиком
-            if(assignTask.UserCantPerformTask(task,statusModel.getStatusModel().getAssignedTo())){
+            if(assignTask.UserCantPerformTask(task,statusModel.getStatusModel().getAssignedTo()) &&
+                    (assignTask.getUserGroupDetails(mapping.getStatusModel().getAssignedTo()).getId().equals("operator") || assignTask.getUserGroupDetails(mapping.getStatusModel().getAssignedTo()).getId().equals("hrGroup"))){
                 System.out.println("manager ");
                 setStatusValue.updateStatus(task,statusModel.getStatusModel().getStatus());
                 applicationData.setStatus(statusModel.getStatusModel().getStatus());

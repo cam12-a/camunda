@@ -62,7 +62,11 @@ public class OperatorAssistantService implements JavaDelegate {
            applicationData.setSubmittedBy(delegateExecution.getProcessEngine().getIdentityService().getCurrentAuthentication().getUserId());
 
 
-           sendNotifications.notifyOperator("Заявка на отсутствие в рабочее время", "Заявка была согласована руководителем, пожалуйста, обработайте ее", operator, assistant);
+           try{
+               sendNotifications.notifyOperator("Заявка на отсутствие в рабочее время", "Заявка была согласована руководителем, пожалуйста, обработайте ее", operator, assistant);
+           }catch (Exception ex){
+               applicationData.setErrorWhilePushingKafkaMessage("error");
+           }
 
 
     }
