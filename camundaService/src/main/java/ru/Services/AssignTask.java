@@ -16,6 +16,7 @@ import java.util.Map;
 
 @Service("AssignTask")
 public class AssignTask {
+    private static final String url=System.getenv("URL_TO_ASSISTANT_SERVICE");
     @Autowired
     CallExternalService callExternalService;
     @Autowired
@@ -28,7 +29,7 @@ public class AssignTask {
             if(delegateTask.getTaskDefinitionKey().equals(managerActivityId))
                 delegateTask.setAssignee(manager);
             if(delegateTask.getTaskDefinitionKey().equals(assistantActivityId)){
-                operators= (Map<String, String>) callExternalService.executeExternalService("http://assistantService:8085/OperatorAssistantList/"+manager,operators);
+                operators= (Map<String, String>) callExternalService.executeExternalService(url+manager,operators);
                 delegateTask.setAssignee(operators.get(manager));
             }
         }
@@ -64,11 +65,12 @@ public class AssignTask {
 
         String operator="";
         Map<String, String> operators=new HashMap<>();
+
         //Получение руководителя сотрудника, id руководителя будет в переменной operator
-        operators= (Map<String, String>) callExternalService.executeExternalService("assistantService:8085/OperatorAssistantList/"+userId,operators);
+        operators= (Map<String, String>) callExternalService.executeExternalService(url+userId,operators);
         operator=operators.get(userId);
         //Получение помощника руководителя
-        operators= (Map<String, String>) callExternalService.executeExternalService("assistantService:8085/OperatorAssistantList/"+operators.get(userId),operators);
+        operators= (Map<String, String>) callExternalService.executeExternalService(url+operators.get(userId),operators);
         System.out.println("op ass "+operators);
 
 
@@ -80,7 +82,7 @@ public class AssignTask {
         String operator="";
         Map<String, String> operators=new HashMap<>();
         //Получение руководителя сотрудника, id руководителя будет в переменной operator
-        operators= (Map<String, String>) callExternalService.executeExternalService("assistantService:8085/OperatorAssistantList/"+userId,operators);
+        operators= (Map<String, String>) callExternalService.executeExternalService(url+userId,operators);
         operator=operators.get(userId);
         return operators;
     }
