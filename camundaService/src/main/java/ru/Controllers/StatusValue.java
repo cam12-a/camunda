@@ -36,7 +36,7 @@ public class StatusValue {
     @Autowired
     Mapping mapping;
 
-    @PostMapping(value="/status/")
+    @PostMapping(value="/api/camunda-service/change-status/")
     public void changeStatus(@RequestBody Mapping statusModel){
         mapping.setStatusModel(statusModel.getStatusModel());
 

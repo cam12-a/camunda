@@ -24,4 +24,5 @@ public class OperatorAssistant  {
   @JsonProperty("operatorAssistant")
    private List<Map<String,OperatorId>> operatorAssistant=new ArrayList<>();
 
+
 }

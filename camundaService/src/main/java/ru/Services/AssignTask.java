@@ -7,6 +7,7 @@ import org.camunda.bpm.engine.identity.Group;
 import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.models.ApplicationData;
 
@@ -16,7 +17,8 @@ import java.util.Map;
 
 @Service("AssignTask")
 public class AssignTask {
-    private static final String url=System.getenv("URL_TO_ASSISTANT_SERVICE");
+    @Value("${URL_TO_ASSISTANT_SERVICE:null}")
+    private String assistantUrl;
     @Autowired
     CallExternalService callExternalService;
     @Autowired
@@ -29,7 +31,7 @@ public class AssignTask {
             if(delegateTask.getTaskDefinitionKey().equals(managerActivityId))
                 delegateTask.setAssignee(manager);
             if(delegateTask.getTaskDefinitionKey().equals(assistantActivityId)){
-                operators= (Map<String, String>) callExternalService.executeExternalService(url+manager,operators);
+                operators= (Map<String, String>) callExternalService.executeExternalService(assistantUrl+manager+"/",operators);
                 delegateTask.setAssignee(operators.get(manager));
             }
         }
@@ -67,10 +69,10 @@ public class AssignTask {
         Map<String, String> operators=new HashMap<>();
 
         //Получение руководителя сотрудника, id руководителя будет в переменной operator
-        operators= (Map<String, String>) callExternalService.executeExternalService(url+userId,operators);
+        operators= (Map<String, String>) callExternalService.executeExternalService(assistantUrl+userId+"/",operators);
         operator=operators.get(userId);
         //Получение помощника руководителя
-        operators= (Map<String, String>) callExternalService.executeExternalService(url+operators.get(userId),operators);
+        operators= (Map<String, String>) callExternalService.executeExternalService(assistantUrl+operators.get(userId)+"/",operators);
         System.out.println("op ass "+operators);
 
 
@@ -82,7 +84,7 @@ public class AssignTask {
         String operator="";
         Map<String, String> operators=new HashMap<>();
         //Получение руководителя сотрудника, id руководителя будет в переменной operator
-        operators= (Map<String, String>) callExternalService.executeExternalService(url+userId,operators);
+        operators= (Map<String, String>) callExternalService.executeExternalService(assistantUrl+userId+"/",operators);
         operator=operators.get(userId);
         return operators;
     }

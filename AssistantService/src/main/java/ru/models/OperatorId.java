@@ -7,12 +7,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 
+@Component
 public class OperatorId {
     @JsonProperty
-    private String id_assistant;
+    private String assistantId;
 }

@@ -19,22 +19,32 @@ public class OperatorAssistantEntity {
     OperatorAssistant operatorAssistant;
     @Autowired
     SaveEntityTemporary saveEntityTemporary;
+    @Autowired
+    OperatorId operatorId;
 
 
-    @PostMapping(value = "/addOperators/")
-    public void addOperatorAssistant(@RequestBody OperatorAssistant operatorAssistant){
+    @PostMapping(value = "/api/assistant-service/operator-list/")
+    public void addOperatorAssistantList(@RequestBody OperatorAssistant operatorAssistant){
 
          saveEntityTemporary.setEntities(operatorAssistant.getOperatorAssistant());
     }
 
-    @GetMapping(value = "/OperatorAssistantList/{operatorId}")
+    @PostMapping(value = "/api/assistant-service/operator-list/{userId}/{assistantId}/")
+    public void addOperatorAssistant(@PathVariable String userId, @PathVariable String assistantId){
+
+        Map<String, String> tempMap= new HashMap<>();
+        tempMap.put(userId,assistantId);
+        saveEntityTemporary.setEntity(tempMap);
+    }
+
+    @GetMapping(value = "/api/assistant-service/operator-assistant-list/{operatorId}/")
     public Map<String, String> getEntities(@PathVariable String operatorId) {
 
         Map<String, String> entities = new HashMap<>();
         List<Map<String, OperatorId>> opAssistant=saveEntityTemporary.getEntities();
         for(int i=0;i<opAssistant.size();i++){
             try{
-                entities.put(operatorId,opAssistant.get(i).get(operatorId).getId_assistant());
+                entities.put(operatorId,opAssistant.get(i).get(operatorId).getAssistantId());
             }catch (Exception e){
                  entities.put("error","данного оператора не существует");
                 BpmnError bpmnError=new BpmnError("error");

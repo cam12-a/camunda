@@ -54,30 +54,6 @@ public class ProcessDetails {
        return  resultantTaskList;
     }
 
-    public void deleteProcessInstance(Task task,Date dateFrom, Date dateTo, String authorName){
-      List<HistoricProcessInstance> historicProcessInstance= ProcessEngines.getDefaultProcessEngine().getHistoryService()
-                .createHistoricProcessInstanceQuery()
-                .active()
-                .startedBy(authorName)
-                .variableValueEquals("dateFrom",dateFrom)
-                .variableValueEquals("dateTo",dateTo)
-                .list();
-        for(HistoricProcessInstance his: historicProcessInstance)
-            ProcessEngines.getDefaultProcessEngine().getHistoryService().deleteHistoricProcessInstance(his.getId());
-
-
-
-    }
-
-
-
-
-
-
-
-
-
-
 
 
 }

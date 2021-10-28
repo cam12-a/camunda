@@ -22,7 +22,7 @@ public class kafkaConsumer {
 
    @KafkaListener(topics = "notification", groupId = "group_notification",containerFactory = "applicationKafkaListenerFactory")
     public void consume(Notifications notifications) throws ParseException {
-        System.out.println("Consume message "+notifications.toString().getBytes(StandardCharsets.UTF_8).toString());
+        System.out.println("Consume message "+notifications.toString());
 
 
     }

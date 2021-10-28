@@ -9,6 +9,7 @@ import ru.models.OperatorId;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,4 +19,5 @@ import java.util.Map;
 @Component
 public class SaveEntityTemporary  {
   private List<Map<String, OperatorId>> entities = new ArrayList<Map<String, OperatorId>>();
+  private Map<String, String> entity= new HashMap<>();
 }

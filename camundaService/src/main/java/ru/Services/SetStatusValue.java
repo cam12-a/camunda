@@ -57,9 +57,7 @@ public class SetStatusValue {
 
         try{
 
-            System.out.println("ProcessId "+ ProcessEngines.getDefaultProcessEngine().getRuntimeService()
-            .getActivityInstance(task.getProcessInstanceId()).getChildActivityInstances()[0].getActivityId()+ " dsf "+ProcessEngines.getDefaultProcessEngine().getRuntimeService()
-                    .getActivityInstance(task.getProcessInstanceId()));
+
 
             ActivityInstance activityInstances=ProcessEngines.getDefaultProcessEngine().getRuntimeService()
                     .getActivityInstance(task.getProcessInstanceId());
@@ -69,13 +67,6 @@ public class SetStatusValue {
                     .cancelActivityInstance(activityInstances.getActivityInstances(activityId)[0].getId())
                     .execute();
 
-            for(int i=0;i<activityInstances.getActivityInstances(activityId).length;i++){
-                if(activityInstances.getActivityInstances(activityId)[i].getActivityId().contains(activityId)){
-                    System.out.println("acID "+activityInstances.getActivityInstances(activityId)[i].toString());
-
-                    break;
-                }
-            }
 
 
 
