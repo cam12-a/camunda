@@ -1,0 +1,25 @@
+Создай ручку, которая будет возвращать id тасок, а в параметре ручки будет JSON:
+{
+  "filters": {
+    "business_key_in": [
+      "String"
+    ],
+    "task_definition_key_in": [
+      "String"
+    ],
+    "users": [
+      {
+        "id": "String",
+        "identity_type_in": [
+          "assignee"
+        ]
+      }
+    ]
+  },
+  "parameters": {
+    "show_variables": [
+      "application_number",
+      "processKey"
+    ]
+  }
+}
