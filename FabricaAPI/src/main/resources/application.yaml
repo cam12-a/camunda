@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fabrica
+    username: postgres
+    password: demo
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+security:
+  ignored=/**:
+
+server:
+  port: 8089
+
