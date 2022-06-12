@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/message
+    username: postgres
+    password: abdi
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+  cloud:
+    vault:
+      host: localhost
+      port: 8200
+      scheme: http
+      uri: http://localhost:8200
+      connection-timeout: 5000
+      read-timeout: 15000
+      authentication: Token
+      token: hvs.nyEsw8Dn363AAx3vQ7RwNWpE
+      kv:
+        backend: chat
+
+      fail-fast: false
+  application:
+    name: chat
+
+
+
+server:
+  port: 8088
+  ssl:
+    enabled: false
+

@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">MARALAYSSECURITY</string>
+    <string name="welcomeMsg">Добро пожаловать в MarAlAys</string>
+    <string name="fingerDescription">коснитесь отпечатков</string>
+    <string name="scamMsg">Сканируйте отпечатку палец пж</string>
+    <string name="btnFinger">Сканировать отпечатку</string>
+    <string name="btn_push_code">Запросить код подерждения</string>
+    <string name="firstname">Фамилия</string>
+    <string name="name">Имя</string>
+    <string name="lastname">Отчество</string>
+    <string name="username">username</string>
+    <string name="password">Пароль</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="registration">Регистрироваться</string>
+    <string name="channel_name">MARALAYSSECURITY</string>
+    <string name="spinner_title">Выберите компанию</string>
+    <string name="channel_description">Вы получите код для подверждения операцию, нажимите пожалуйста на кнопку открыть</string>
+    <string name="wargning">К вашей учетке пытались получить доступ, если это вы, то нажимайте кнопку да,
+    При нажатии на да, вам придется залогиниться еще раз а затем вести кодовое слово</string>
+</resources>

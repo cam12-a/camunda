@@ -1,0 +1,25 @@
+server:
+  port: 8085
+app:
+  firebase-configuration-file: maralays-7544a-firebase-adminsdk-9yc6i-e1058889da.json
+
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mfa
+    username: postgres
+    password: demo
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+  security:
+    user:
+      name: user
+      password: password

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/transparent"
+                android:visibility="visible"
+                tools:visibility="visible">
+
+    <LinearLayout
+            android:id="@+id/fingerBlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:orientation="vertical">
+
+        <Button
+                android:id="@+id/btn_push_code"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/btn_push_code"
+                android:textColor="@color/white"
+                android:visibility="visible"
+                android:layout_gravity="center"
+                tools:visibility="visible"
+                android:background="@drawable/transparent_bg_bordered_button"
+                android:paddingBottom="10px"
+
+
+        />
+
+        <Button
+                android:id="@+id/btnFinger"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/btnFinger"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                tools:visibility="visible"
+                android:textSize="16sp"
+                android:background="@drawable/transparent_bg_bordered_button"
+
+                android:state_pressed="true"
+                android:drawable="@drawable/btn_border"
+        />
+
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

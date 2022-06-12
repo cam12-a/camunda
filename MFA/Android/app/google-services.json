@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "327912543850",
+    "project_id": "maralays-7544a",
+    "storage_bucket": "maralays-7544a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:327912543850:android:6668ff96e7656c0c179c13",
+        "android_client_info": {
+          "package_name": "ru.gui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "327912543850-0u69p3ru6s04kset9dhurqgjbr3cm336.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.gui",
+            "certificate_hash": "e619c15ddd862e0bbd0444c2e942dc3311b9010d"
+          }
+        },
+        {
+          "client_id": "327912543850-7d3ohns7jsqm6ggl5sk30jlv1m2vm5ca.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2TRqvnnxsttn5tcELja0VN5SuSBp3m7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "327912543850-7d3ohns7jsqm6ggl5sk30jlv1m2vm5ca.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
