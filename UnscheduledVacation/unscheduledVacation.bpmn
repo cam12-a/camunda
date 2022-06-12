@@ -1,0 +1,891 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_196qiz5" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:collaboration id="Collaboration_0j4fiyj">
+    <bpmn:participant id="Participant_1folbrx" name="Внеплановый отпуск" processRef="unscheduled_vacation" />
+  </bpmn:collaboration>
+  <bpmn:process id="unscheduled_vacation" name="Внеплановый отпуск" isExecutable="true">
+    <bpmn:extensionElements>
+      <camunda:properties>
+        <camunda:property name="category" value="vacation" />
+      </camunda:properties>
+    </bpmn:extensionElements>
+    <bpmn:laneSet id="LaneSet_0pv1afv">
+      <bpmn:lane id="Lane_14e9s0m" name="Пользователь">
+        <bpmn:flowNodeRef>unscheduled_vacation_begin</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1i9m4o4</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>askingForOriginalDocument</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>notificationToSendOriginalDocuments</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1vm8yuh</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1hvzeq5</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_04re722</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_08hnqqy</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_14hom3h</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>sendNotificationWhenReject</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>rejectedByDirector</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>uniqueUUID</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_172w6gn</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1290t3a" name="Отдел кадров">
+        <bpmn:flowNodeRef>Gateway_0r9qacd</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>waitingForAgreement</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_07a1t1k</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_02a4r6f</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1qc3xko</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1k5il0h</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0hyd8bm</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_12czfsq" name="Руководитель">
+        <bpmn:flowNodeRef>sendNotifycationToDirector</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>waitingForDirectorAgreement</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1s4sjk0</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1g52s1r</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_00hbvw0</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0r1m9ug</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:exclusiveGateway id="Gateway_0r9qacd" default="Flow_14693gn">
+      <bpmn:incoming>Flow_0p2d7d8</bpmn:incoming>
+      <bpmn:outgoing>Flow_1o27bqw</bpmn:outgoing>
+      <bpmn:outgoing>Flow_14693gn</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="waitingForAgreement" name="на согласовании в отдел кадров">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="status">"На согласовании"</camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:formData>
+          <camunda:formField id="dateSubmittion" label="Дата подачи" type="date">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="satus" label="Статус заявки" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="initiatorFullname" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="initiatorPosition" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="vacation" label="Тип отпуска" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="vacatuionType" label="Вид отпуска" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="date_from" type="date">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="date_to" type="date" defaultValue="Дата окончания">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="vacationDays" label="Длительность отпуска" type="long">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="attachment" label="Вложения к заявке" type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="input_file_list" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="comment" label="Комментарий " type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="input_text_area" />
+              <camunda:property id="property_row_number" value="8" />
+              <camunda:property id="property_col_number" value="6" />
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="directorComment" label="Комментарий " type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="input_text_area" />
+              <camunda:property id="property_row_number" value="8" />
+              <camunda:property id="property_col_number" value="6" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="ACTIONS_solution" type="enum">
+            <camunda:properties>
+              <camunda:property id="ACTION_approve" value="{&#34;name&#34;:&#34;Согласовать&#34;,&#34;style&#34;:&#34;primary&#34;,&#34;icon_style&#34;: &#34;approve&#34;}" />
+              <camunda:property id="ACTION_reject" value="{&#34;name&#34;:&#34;Отклонить&#34;,&#34;style&#34;:&#34;cancel&#34;}" />
+            </camunda:properties>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0km8ufj</bpmn:incoming>
+      <bpmn:incoming>Flow_08zfhby</bpmn:incoming>
+      <bpmn:outgoing>Flow_0p2d7d8</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="unscheduled_vacation_begin" name="Внеплановый отпуск">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="vacation" label="Тип отпуска" type="enum">
+            <camunda:properties>
+              <camunda:property id="type" value="input_select" />
+            </camunda:properties>
+            <camunda:value id="annualPaidVacation" name="Ежегодный оплачиваемый" />
+            <camunda:value id="otherTypeVacation" name="Иные виды отпусков" />
+          </camunda:formField>
+          <camunda:formField id="vacationType" label="Вид отпуска" type="enum">
+            <camunda:value id="offSchedule" name="Ежегодный отпуск (вне графика)" />
+            <camunda:value id="additionalDangerousWorkConditionTK" name="Дополнительный отпуск за вредные и опасные условия труда (ТК)" />
+            <camunda:value id="additionalDangerousWorkConditionKD" name="Дополнительный отпуск за вредные и опасные условия труда (КД)" />
+            <camunda:value id="irregularWorkingDay" name="Дополнительный отпуск за ненормированный рабочий день" />
+            <camunda:value id="additionalMultiShiftWork" name="Дополнительный отпуск за многосменный режим работы" />
+            <camunda:value id="forParentRaisingChildren" name="Родителям, воспитывающим детей-школьников младших классов (1-4 класс) в День знаний" />
+            <camunda:value id="dayWithoutPayWomen" name="Выходной день без сохранения заработной платы женщинам, работающим в сельской местности" />
+            <camunda:value id="forDisabledChildren" name="Дополнительные выходные дни по уходу за детьми -инвалидами" />
+            <camunda:value id="forChernobylVictims" name="Дополнительный отпуск пострадавшим и ликвидаторам пострадавшим на ЧАЭС" />
+            <camunda:value id="forDonorUnderTK" name="Дополнительный отпуск донорам по ТК" />
+            <camunda:value id="forDonorOnKD" name="Дополнительный отпуск донорам по КД" />
+            <camunda:value id="militaryService" name="Родителям или опекуну(попечителю) в случае призыва на военную службу сына" />
+            <camunda:value id="studyVacation" name="Учебный отпуск" />
+            <camunda:value id="forFatherWhenChildBirthDay" name="Работнику Отцу в случае рождения ребенка" />
+            <camunda:value id="mariageRegistration" name="В случае регистрации брака Работника" />
+            <camunda:value id="childrenMariageRegistration" name="В случае регистрации брака детей Работника" />
+            <camunda:value id="deathOfSpouse" name="В случаи смерти супруга(и), членов семьи Работника" />
+            <camunda:value id="medicalExamination" name="Диспансеризация" />
+            <camunda:value id="withoutPayInAccordingOfLaw" name="Отпуск без сохранения заработной платы в соответствии с ч.1 ст.128 ТК РФ" />
+            <camunda:value id="withoutPayInAccordingOfLawTK" name="Отпуск без сохранения заработной платы в соответствии с ч.2 ст.128 ТК РФ" />
+            <camunda:value id="maternityVacation" name="Отпуск по беременности и родам" />
+            <camunda:value id="parentalVacation" name="Отпуск по уходу за ребенком" />
+          </camunda:formField>
+          <camunda:formField id="date_from" label="Дата начала" type="date">
+            <camunda:properties>
+              <camunda:property id="property_is_required" value="true" />
+              <camunda:property id="validation_max-weeks-count-since-date" value="{   &#34;parameter&#34;: 2,   &#34;message&#34;: &#34;Дата начала отпуска должна быть больше двух недель от текущей даты.&#34; }" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="date_to" label="Дата окончания" type="date">
+            <camunda:properties>
+              <camunda:property id="property_is_required" value="true" />
+              <camunda:property id="validation_max-weeks-count-since-date" value="{   &#34;parameter&#34;: 14,   &#34;fields&#34;: {     &#34;date_from&#34;: &#34;form_field_name_period_begin&#34;,     &#34;date_to&#34;: &#34;form_field_name_period_begin&#34;   },   &#34;message&#34;: &#34;Начало периода должно быть раньше его окончания&#34; }" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="comment" label="Комментарий" type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="input_text_area" />
+              <camunda:property id="property_row_number" value="8" />
+              <camunda:property id="property_col_number" value="2" />
+              <camunda:property id="validation_max_length" value="4096" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="vacationDays" label="Количество дней отпуска" type="long">
+            <camunda:properties>
+              <camunda:property id="condition_is_visible" value="date_from!=&#39;&#39; &#38;&#38; date_to!=&#39;&#39;" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="allowAmountDay" label="Доступное количество дней отпуска" type="long">
+            <camunda:properties>
+              <camunda:property id="condition_is_visible" value="vacation=&#34;Ежегодный оплачиваемый&#34;" />
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="attachment" label="Вложения" type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="input_file_list" />
+              <camunda:property id="property_bottom_label" value="До десяти файлов общим размером не более 10мб" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="ACTIONS_create" label="Действие" type="enum">
+            <camunda:properties>
+              <camunda:property id="ACTION_approve" value="{&#34;name&#34;:&#34;Отправить&#34;,&#34;style&#34;:&#34;primary&#34;,&#34;icon_style&#34;: &#34;approve&#34;}" />
+            </camunda:properties>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_03bq4tk</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_1i9m4o4">
+      <bpmn:incoming>Flow_0use5vm</bpmn:incoming>
+      <bpmn:outgoing>Flow_0km8ufj</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0v5bvq7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="sendNotifycationToDirector" name="Уведомить руководителя о поступлении">
+      <bpmn:incoming>Flow_0v5bvq7</bpmn:incoming>
+      <bpmn:outgoing>Flow_0hohv54</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="waitingForDirectorAgreement" name="Согласование заявки">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="status">"На согласовании"</camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:formData>
+          <camunda:formField id="dateSubmittion" label="Дата подачи" type="date">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="satus" label="Статус заявки" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="initiatorFullname" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="initiatorPosition" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="vacation" label="Тип отпуска" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="vacatuionType" label="Вид отпуска" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="date_from" type="date">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="date_to" type="date" defaultValue="Дата окончания">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="vacationDays" label="Длительность отпуска" type="long">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="attachment" label="Вложения к заявке" type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="input_file_list" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="comment" label="Комментарий " type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="input_text_area" />
+              <camunda:property id="property_row_number" value="8" />
+              <camunda:property id="property_col_number" value="6" />
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="ACTIONS_solution" type="enum">
+            <camunda:properties>
+              <camunda:property id="ACTION_approve" value="{&#34;name&#34;:&#34;Согласовать&#34;,&#34;style&#34;:&#34;primary&#34;,&#34;icon_style&#34;: &#34;approve&#34;}" />
+              <camunda:property id="ACTION_reject" value="{&#34;name&#34;:&#34;Отклонить&#34;,&#34;style&#34;:&#34;cancel&#34;}" />
+            </camunda:properties>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0hohv54</bpmn:incoming>
+      <bpmn:outgoing>Flow_026s5sy</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_1s4sjk0" name="на согласовании руководителя">
+      <bpmn:incoming>Flow_026s5sy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ltprsa</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_1g52s1r" default="Flow_08zfhby">
+      <bpmn:incoming>Flow_1ltprsa</bpmn:incoming>
+      <bpmn:outgoing>Flow_0z206hp</bpmn:outgoing>
+      <bpmn:outgoing>Flow_08zfhby</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0dj32lz" sourceRef="Activity_0hyd8bm" targetRef="Activity_1hvzeq5" />
+    <bpmn:sequenceFlow id="Flow_0dem36o" sourceRef="Activity_0r1m9ug" targetRef="Event_00hbvw0" />
+    <bpmn:sequenceFlow id="Flow_1plpblr" sourceRef="Activity_02a4r6f" targetRef="Activity_1qc3xko" />
+    <bpmn:sequenceFlow id="Flow_1yhipbh" sourceRef="Activity_1qc3xko" targetRef="Gateway_1k5il0h" />
+    <bpmn:sequenceFlow id="Flow_1i3hlpz" sourceRef="rejectedByDirector" targetRef="sendNotificationWhenReject" />
+    <bpmn:sequenceFlow id="Flow_0v5bvq7" sourceRef="Gateway_1i9m4o4" targetRef="sendNotifycationToDirector" />
+    <bpmn:sequenceFlow id="Flow_0hohv54" sourceRef="sendNotifycationToDirector" targetRef="waitingForDirectorAgreement" />
+    <bpmn:sequenceFlow id="Flow_1ltprsa" sourceRef="Activity_1s4sjk0" targetRef="Gateway_1g52s1r" />
+    <bpmn:sequenceFlow id="Flow_04ujsmy" sourceRef="sendNotificationWhenReject" targetRef="Event_14hom3h" />
+    <bpmn:sequenceFlow id="Flow_0anndsm" sourceRef="askingForOriginalDocument" targetRef="notificationToSendOriginalDocuments" />
+    <bpmn:sequenceFlow id="Flow_0p2d7d8" sourceRef="waitingForAgreement" targetRef="Gateway_0r9qacd" />
+    <bpmn:sequenceFlow id="Flow_08zfhby" sourceRef="Gateway_1g52s1r" targetRef="waitingForAgreement" />
+    <bpmn:sequenceFlow id="Flow_0km8ufj" sourceRef="Gateway_1i9m4o4" targetRef="waitingForAgreement">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">isDirectorAgreementRequired!='yes'</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_026s5sy" sourceRef="waitingForDirectorAgreement" targetRef="Activity_1s4sjk0" />
+    <bpmn:sequenceFlow id="Flow_0z206hp" name="отклонено" sourceRef="Gateway_1g52s1r" targetRef="rejectedByDirector">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">status="Отклонена"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_14693gn" sourceRef="Gateway_0r9qacd" targetRef="Gateway_07a1t1k" />
+    <bpmn:sequenceFlow id="Flow_0qxu2hz" sourceRef="Gateway_07a1t1k" targetRef="Activity_02a4r6f" />
+    <bpmn:sequenceFlow id="Flow_12qwtma" sourceRef="Activity_1hvzeq5" targetRef="Activity_0r1m9ug" />
+    <bpmn:sequenceFlow id="Flow_0hmnedo" sourceRef="Activity_1vm8yuh" targetRef="Activity_04re722" />
+    <bpmn:sequenceFlow id="Flow_0p7gz9l" sourceRef="Gateway_1k5il0h" targetRef="Activity_0hyd8bm" />
+    <bpmn:sequenceFlow id="Flow_0iwu280" name="отклонена" sourceRef="Gateway_1k5il0h" targetRef="Activity_1vm8yuh">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">status="Отклонена"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0ghmrj8" sourceRef="notificationToSendOriginalDocuments" targetRef="Gateway_07a1t1k" />
+    <bpmn:sequenceFlow id="Flow_1o27bqw" sourceRef="Gateway_0r9qacd" targetRef="askingForOriginalDocument">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">needOriginalDocuments</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0use5vm" sourceRef="Activity_172w6gn" targetRef="Gateway_1i9m4o4" />
+    <bpmn:sequenceFlow id="Flow_1yg2xoy" sourceRef="uniqueUUID" targetRef="Activity_172w6gn" />
+    <bpmn:sequenceFlow id="Flow_03bq4tk" sourceRef="unscheduled_vacation_begin" targetRef="uniqueUUID" />
+    <bpmn:userTask id="askingForOriginalDocument" name="запрос о предоставить оригинал документов">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="dateSubmittion" label="Дата подачи" type="date">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="satus" label="Статус заявки" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="initiatorFullname" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="initiatorPosition" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="vacation" label="Тип отпуска" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="vacatuionType" label="Вид отпуска" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="date_from" type="date">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="date_to" type="date" defaultValue="Дата окончания">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="vacationDays" label="Длительность отпуска" type="long">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="attachment" label="Вложения к заявке" type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="input_file_list" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="comment" label="Комментарий " type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="input_text_area" />
+              <camunda:property id="property_row_number" value="8" />
+              <camunda:property id="property_col_number" value="6" />
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="directorComment" label="Комментарий " type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="input_text_area" />
+              <camunda:property id="property_row_number" value="8" />
+              <camunda:property id="property_col_number" value="6" />
+            </camunda:properties>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1o27bqw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0anndsm</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="notificationToSendOriginalDocuments" name="Уведомление о необходимости предоставления оригиналов">
+      <bpmn:incoming>Flow_0anndsm</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ghmrj8</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_07a1t1k">
+      <bpmn:incoming>Flow_0ghmrj8</bpmn:incoming>
+      <bpmn:incoming>Flow_14693gn</bpmn:incoming>
+      <bpmn:outgoing>Flow_0qxu2hz</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Activity_02a4r6f" name="обработка заявка">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="status">"На согласовании"</camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:formData>
+          <camunda:formField id="dateSubmittion" label="Дата подачи" type="date">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="satus" label="Статус заявки" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="initiatorFullname" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="initiatorPosition" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="vacation" label="Тип отпуска" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="vacatuionType" label="Вид отпуска" type="string">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="date_from" type="date">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="date_to" type="date" defaultValue="Дата окончания">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="vacationDays" label="Длительность отпуска" type="long">
+            <camunda:properties>
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="attachment" label="Вложения к заявке" type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="input_file_list" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="comment" label="Комментарий " type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="input_text_area" />
+              <camunda:property id="property_row_number" value="8" />
+              <camunda:property id="property_col_number" value="6" />
+              <camunda:property id="property_is_disabled" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="directorComment" label="Комментарий " type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="input_text_area" />
+              <camunda:property id="property_row_number" value="8" />
+              <camunda:property id="property_col_number" value="6" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="ACTIONS_solution" type="enum">
+            <camunda:properties>
+              <camunda:property id="ACTION_approve" value="{&#34;name&#34;:&#34;Согласовать&#34;,&#34;style&#34;:&#34;primary&#34;,&#34;icon_style&#34;: &#34;approve&#34;}" />
+              <camunda:property id="ACTION_reject" value="{&#34;name&#34;:&#34;Отклонить&#34;,&#34;style&#34;:&#34;cancel&#34;}" />
+            </camunda:properties>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0qxu2hz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1plpblr</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_1qc3xko" name="на согласовании  отдела кадров">
+      <bpmn:incoming>Flow_1plpblr</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yhipbh</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_1k5il0h" default="Flow_0p7gz9l">
+      <bpmn:incoming>Flow_1yhipbh</bpmn:incoming>
+      <bpmn:outgoing>Flow_0iwu280</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0p7gz9l</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Activity_1hvzeq5" name="ознакомление о формировании приказа">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="vacationGUI" type="string" />
+          <camunda:formField id="dateSubmittion" type="date" />
+          <camunda:formField id="vacation" type="string" />
+          <camunda:formField id="attachment" type="string" />
+          <camunda:formField id="ACTIONS_notified" label="Ознакомление" type="string">
+            <camunda:properties>
+              <camunda:property id="ACTION_approve" value="{&#34;name&#34;:&#34;Ознакомлен&#34;,&#34;style&#34;:&#34;approve&#34;}" />
+            </camunda:properties>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0dj32lz</bpmn:incoming>
+      <bpmn:outgoing>Flow_12qwtma</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_00hbvw0">
+      <bpmn:incoming>Flow_0dem36o</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Activity_0r1m9ug" name="уведомить руководителя о согласование заявки">
+      <bpmn:incoming>Flow_12qwtma</bpmn:incoming>
+      <bpmn:outgoing>Flow_0dem36o</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0hyd8bm" name="Формирование приказа" camunda:delegateExpression="${VacationStatus}">
+      <bpmn:incoming>Flow_0p7gz9l</bpmn:incoming>
+      <bpmn:outgoing>Flow_0dj32lz</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_1vm8yuh" name="уведомить пользователя о отклонении">
+      <bpmn:incoming>Flow_0iwu280</bpmn:incoming>
+      <bpmn:outgoing>Flow_0hmnedo</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1xz2wjs" sourceRef="Activity_04re722" targetRef="Event_08hnqqy" />
+    <bpmn:userTask id="Activity_04re722" name="Отклонение заявки">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="status">"На согласовании"</camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:formData>
+          <camunda:formField id="rejectCause" label="Шаблон" type="enum">
+            <camunda:value id="unknowCause" />
+            <camunda:value id="workNecessity" name="Производственная необходимость" />
+            <camunda:value id="lateSubmittion" name="Несвоевременное предоставление заявления" />
+          </camunda:formField>
+          <camunda:formField id="officeWokerComment" label="Комментарий " type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="input_text_area" />
+              <camunda:property id="property_row_number" value="8" />
+              <camunda:property id="property_col_number" value="6" />
+              <camunda:property id="validation_max_length" value="4096" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="ACTIONS_reject1" label="Действие" type="string">
+            <camunda:properties>
+              <camunda:property id="ACTION_approve" value="{&#34;name&#34;:&#34;Отклонить&#34;,&#34;style&#34;:&#34;approve&#34;}" />
+              <camunda:property id="ACTION_reject" value="{&#34;name&#34;:&#34;Отменить&#34;,&#34;style&#34;:&#34;cancel&#34;}" />
+            </camunda:properties>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0hmnedo</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xz2wjs</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_08hnqqy">
+      <bpmn:incoming>Flow_1xz2wjs</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_14hom3h">
+      <bpmn:incoming>Flow_04ujsmy</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="sendNotificationWhenReject" name="Отправка уведомления пользователю">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="status">"На согласовании"</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1i3hlpz</bpmn:incoming>
+      <bpmn:outgoing>Flow_04ujsmy</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="rejectedByDirector" name="Отклонение заявки">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="status">"На согласовании"</camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:formData>
+          <camunda:formField id="rejectCause" label="Шаблон" type="enum">
+            <camunda:value id="unknowCause" />
+            <camunda:value id="workNecessity" name="Производственная необходимость" />
+            <camunda:value id="lateSubmittion" name="Несвоевременное предоставление заявления" />
+          </camunda:formField>
+          <camunda:formField id="directorComment" label="Комментарий " type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="input_text_area" />
+              <camunda:property id="property_row_number" value="8" />
+              <camunda:property id="property_col_number" value="6" />
+              <camunda:property id="validation_max_length" value="4096" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="ACTIONS_reject" label="Действие" type="string">
+            <camunda:properties>
+              <camunda:property id="ACTION_approve" value="{&#34;name&#34;:&#34;Отклонить&#34;,&#34;style&#34;:&#34;approve&#34;}" />
+              <camunda:property id="ACTION_reject" value="{&#34;name&#34;:&#34;Отменить&#34;,&#34;style&#34;:&#34;cancel&#34;}" />
+            </camunda:properties>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0z206hp</bpmn:incoming>
+      <bpmn:outgoing>Flow_1i3hlpz</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="uniqueUUID" name="Уникальный номер заявки" camunda:delegateExpression="${GenerateGUI}">
+      <bpmn:incoming>Flow_03bq4tk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yg2xoy</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_172w6gn" name="Установка статуса, требуется ли согласование руководителя" camunda:delegateExpression="">
+      <bpmn:incoming>Flow_1yg2xoy</bpmn:incoming>
+      <bpmn:outgoing>Flow_0use5vm</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:textAnnotation id="TextAnnotation_0a8h8sf">
+      <bpmn:text>требует ли оригиналов документов</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_00ay6cr" sourceRef="Gateway_0r9qacd" targetRef="TextAnnotation_0a8h8sf" />
+    <bpmn:textAnnotation id="TextAnnotation_0z5nycp">
+      <bpmn:text>решение по заявке</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0lpnzap" sourceRef="Gateway_1k5il0h" targetRef="TextAnnotation_0z5nycp" />
+    <bpmn:textAnnotation id="TextAnnotation_1p4yygh">
+      <bpmn:text>требует согласование руководителя</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0e9fd2e" sourceRef="Gateway_1i9m4o4" targetRef="TextAnnotation_1p4yygh" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0j4fiyj">
+      <bpmndi:BPMNShape id="Participant_1folbrx_di" bpmnElement="Participant_1folbrx" isHorizontal="true">
+        <dc:Bounds x="120" y="80" width="2790" height="720" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_14e9s0m_di" bpmnElement="Lane_14e9s0m" isHorizontal="true">
+        <dc:Bounds x="150" y="260" width="2760" height="240" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1290t3a_di" bpmnElement="Lane_1290t3a" isHorizontal="true">
+        <dc:Bounds x="150" y="500" width="2760" height="300" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_12czfsq_di" bpmnElement="Lane_12czfsq" isHorizontal="true">
+        <dc:Bounds x="150" y="80" width="2760" height="180" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0a8h8sf_di" bpmnElement="TextAnnotation_0a8h8sf">
+        <dc:Bounds x="1090" y="580" width="100" height="55" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0z5nycp_di" bpmnElement="TextAnnotation_0z5nycp">
+        <dc:Bounds x="1920" y="560" width="100" height="41" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1p4yygh_di" bpmnElement="TextAnnotation_1p4yygh">
+        <dc:Bounds x="820" y="310" width="100" height="55" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0dj32lz_di" bpmnElement="Flow_0dj32lz">
+        <di:waypoint x="2160" y="720" />
+        <di:waypoint x="2380" y="720" />
+        <di:waypoint x="2380" y="440" />
+        <di:waypoint x="2420" y="440" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dem36o_di" bpmnElement="Flow_0dem36o">
+        <di:waypoint x="2720" y="150" />
+        <di:waypoint x="2772" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1plpblr_di" bpmnElement="Flow_1plpblr">
+        <di:waypoint x="1650" y="640" />
+        <di:waypoint x="1700" y="640" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yhipbh_di" bpmnElement="Flow_1yhipbh">
+        <di:waypoint x="1800" y="640" />
+        <di:waypoint x="1855" y="640" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xz2wjs_di" bpmnElement="Flow_1xz2wjs">
+        <di:waypoint x="2180" y="430" />
+        <di:waypoint x="2262" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i3hlpz_di" bpmnElement="Flow_1i3hlpz">
+        <di:waypoint x="1630" y="338" />
+        <di:waypoint x="1730" y="338" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0v5bvq7_di" bpmnElement="Flow_0v5bvq7">
+        <di:waypoint x="810" y="395" />
+        <di:waypoint x="810" y="150" />
+        <di:waypoint x="860" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hohv54_di" bpmnElement="Flow_0hohv54">
+        <di:waypoint x="960" y="150" />
+        <di:waypoint x="1010" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ltprsa_di" bpmnElement="Flow_1ltprsa">
+        <di:waypoint x="1240" y="150" />
+        <di:waypoint x="1385" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04ujsmy_di" bpmnElement="Flow_04ujsmy">
+        <di:waypoint x="1830" y="338" />
+        <di:waypoint x="1972" y="338" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0anndsm_di" bpmnElement="Flow_0anndsm">
+        <di:waypoint x="1270" y="430" />
+        <di:waypoint x="1340" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0p2d7d8_di" bpmnElement="Flow_0p2d7d8">
+        <di:waypoint x="960" y="640" />
+        <di:waypoint x="1015" y="640" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08zfhby_di" bpmnElement="Flow_08zfhby">
+        <di:waypoint x="1410" y="175" />
+        <di:waypoint x="1410" y="280" />
+        <di:waypoint x="930" y="280" />
+        <di:waypoint x="930" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0km8ufj_di" bpmnElement="Flow_0km8ufj">
+        <di:waypoint x="810" y="445" />
+        <di:waypoint x="810" y="640" />
+        <di:waypoint x="860" y="640" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_026s5sy_di" bpmnElement="Flow_026s5sy">
+        <di:waypoint x="1110" y="150" />
+        <di:waypoint x="1140" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0z206hp_di" bpmnElement="Flow_0z206hp">
+        <di:waypoint x="1435" y="150" />
+        <di:waypoint x="1480" y="150" />
+        <di:waypoint x="1480" y="338" />
+        <di:waypoint x="1530" y="338" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1488" y="283" width="54" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14693gn_di" bpmnElement="Flow_14693gn">
+        <di:waypoint x="1040" y="665" />
+        <di:waypoint x="1040" y="700" />
+        <di:waypoint x="1490" y="700" />
+        <di:waypoint x="1490" y="665" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qxu2hz_di" bpmnElement="Flow_0qxu2hz">
+        <di:waypoint x="1515" y="640" />
+        <di:waypoint x="1550" y="640" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12qwtma_di" bpmnElement="Flow_12qwtma">
+        <di:waypoint x="2520" y="440" />
+        <di:waypoint x="2550" y="440" />
+        <di:waypoint x="2550" y="150" />
+        <di:waypoint x="2620" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hmnedo_di" bpmnElement="Flow_0hmnedo">
+        <di:waypoint x="2040" y="430" />
+        <di:waypoint x="2080" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0p7gz9l_di" bpmnElement="Flow_0p7gz9l">
+        <di:waypoint x="1880" y="665" />
+        <di:waypoint x="1880" y="720" />
+        <di:waypoint x="2060" y="720" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0iwu280_di" bpmnElement="Flow_0iwu280">
+        <di:waypoint x="1880" y="615" />
+        <di:waypoint x="1880" y="430" />
+        <di:waypoint x="1940" y="430" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1813" y="520" width="54" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ghmrj8_di" bpmnElement="Flow_0ghmrj8">
+        <di:waypoint x="1440" y="430" />
+        <di:waypoint x="1490" y="430" />
+        <di:waypoint x="1490" y="615" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1o27bqw_di" bpmnElement="Flow_1o27bqw">
+        <di:waypoint x="1040" y="615" />
+        <di:waypoint x="1040" y="430" />
+        <di:waypoint x="1170" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0use5vm_di" bpmnElement="Flow_0use5vm">
+        <di:waypoint x="670" y="420" />
+        <di:waypoint x="785" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yg2xoy_di" bpmnElement="Flow_1yg2xoy">
+        <di:waypoint x="460" y="420" />
+        <di:waypoint x="570" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03bq4tk_di" bpmnElement="Flow_03bq4tk">
+        <di:waypoint x="228" y="420" />
+        <di:waypoint x="360" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Gateway_0r9qacd_di" bpmnElement="Gateway_0r9qacd" isMarkerVisible="true">
+        <dc:Bounds x="1015" y="615" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ntf8t7_di" bpmnElement="waitingForAgreement">
+        <dc:Bounds x="860" y="600" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="unscheduled_vacation_begin">
+        <dc:Bounds x="192" y="402" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="175" y="445" width="71" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1i9m4o4_di" bpmnElement="Gateway_1i9m4o4" isMarkerVisible="true">
+        <dc:Bounds x="785" y="395" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0r2vlfd_di" bpmnElement="sendNotifycationToDirector">
+        <dc:Bounds x="860" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gs84yc_di" bpmnElement="waitingForDirectorAgreement">
+        <dc:Bounds x="1010" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0p06kwt_di" bpmnElement="Activity_1s4sjk0">
+        <dc:Bounds x="1140" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1g52s1r_di" bpmnElement="Gateway_1g52s1r" isMarkerVisible="true">
+        <dc:Bounds x="1385" y="125" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19588c3_di" bpmnElement="askingForOriginalDocument">
+        <dc:Bounds x="1170" y="390" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1bisqvf_di" bpmnElement="notificationToSendOriginalDocuments">
+        <dc:Bounds x="1340" y="390" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_07a1t1k_di" bpmnElement="Gateway_07a1t1k" isMarkerVisible="true">
+        <dc:Bounds x="1465" y="615" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02a4r6f_di" bpmnElement="Activity_02a4r6f">
+        <dc:Bounds x="1550" y="600" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ojcbjy_di" bpmnElement="Activity_1qc3xko">
+        <dc:Bounds x="1700" y="600" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1k5il0h_di" bpmnElement="Gateway_1k5il0h" isMarkerVisible="true">
+        <dc:Bounds x="1855" y="615" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0102sd9_di" bpmnElement="Activity_1vm8yuh">
+        <dc:Bounds x="1940" y="390" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1o8f9fj_di" bpmnElement="Activity_1hvzeq5">
+        <dc:Bounds x="2420" y="400" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00hbvw0_di" bpmnElement="Event_00hbvw0">
+        <dc:Bounds x="2772" y="132" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0r1m9ug_di" bpmnElement="Activity_0r1m9ug">
+        <dc:Bounds x="2620" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0v9uem2_di" bpmnElement="Activity_0hyd8bm">
+        <dc:Bounds x="2060" y="680" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04re722_di" bpmnElement="Activity_04re722">
+        <dc:Bounds x="2080" y="390" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_08hnqqy_di" bpmnElement="Event_08hnqqy">
+        <dc:Bounds x="2262" y="412" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_14hom3h_di" bpmnElement="Event_14hom3h">
+        <dc:Bounds x="1972" y="320" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15cdpju_di" bpmnElement="sendNotificationWhenReject">
+        <dc:Bounds x="1730" y="298" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02z9ia8_di" bpmnElement="rejectedByDirector">
+        <dc:Bounds x="1530" y="298" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0sh5tl4_di" bpmnElement="uniqueUUID">
+        <dc:Bounds x="360" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wrctbx_di" bpmnElement="Activity_172w6gn">
+        <dc:Bounds x="570" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_00ay6cr_di" bpmnElement="Association_00ay6cr">
+        <di:waypoint x="1057" y="632" />
+        <di:waypoint x="1090" y="618" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0lpnzap_di" bpmnElement="Association_0lpnzap">
+        <di:waypoint x="1895" y="630" />
+        <di:waypoint x="1934" y="601" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0e9fd2e_di" bpmnElement="Association_0e9fd2e">
+        <di:waypoint x="820" y="405" />
+        <di:waypoint x="846" y="365" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
