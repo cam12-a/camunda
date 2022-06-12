@@ -1,4 +1,4 @@
-In this branch you can I developed some service:
+In this branch I developed some services:
 1. FabricaTask - is an API for a user survey system
 2. kafkaTraining - developed in camunda, Java and SpringBoot - recrutment system. The system is integrated with Kafka
 3. getTask - is a RestAPI for optimization of amount of request to DB
