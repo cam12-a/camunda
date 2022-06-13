@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/login"
-        android:background="@color/background"
+        android:background="@drawable/background"
         tools:context=".Login">
 
     <fragment android:layout_width="match_parent"
@@ -15,7 +15,7 @@
               android:layout_alignParentTop="true"
               android:name="ru.gui.components.fragments.Header"
               class="ru.gui.components.fragments.Header"
-              />
+        tools:ignore="Instantiatable" />
 
     <LinearLayout
         android:id="@+id/login_form"

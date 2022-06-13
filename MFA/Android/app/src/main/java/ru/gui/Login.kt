@@ -47,8 +47,6 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-
-
         getAllCompany().get().addOnSuccessListener {
             if(!it.isEmpty)
                 fillDropdownCompanyLis(it)
@@ -127,19 +125,6 @@ class Login : AppCompatActivity() {
 
 
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             createCompany()
 
@@ -241,8 +226,6 @@ class Login : AppCompatActivity() {
                        companyLink=r.data["companyLinkToAuthenticatorAPI"].toString()
                    }
                 }
-
-
 
             }
 

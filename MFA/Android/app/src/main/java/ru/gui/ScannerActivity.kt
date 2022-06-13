@@ -45,8 +45,6 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
             openCamera()
         }
 
-
-
     }
 
     private fun openCamera() {

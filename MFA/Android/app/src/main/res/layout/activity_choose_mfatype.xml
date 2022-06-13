@@ -5,28 +5,32 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
+        android:background="@drawable/background"
         android:id="@+id/mfa_service"
         tools:context=".ChooseMFAType">
 
 
-    <fragment android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              tools:layout="@layout/header"
-              android:layout_alignParentTop="true"
-              class="ru.gui.components.fragments.Header"/>
+    <fragment
+        class="ru.gui.components.fragments.Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        tools:ignore="Instantiatable"
+        tools:layout="@layout/header" />
 
     <fragment android:layout_width="match_parent"
               android:layout_height="wrap_content"
               tools:layout="@layout/content"
               android:layout_centerVertical="true"
-              class="ru.gui.components.fragments.Content"/>
+              class="ru.gui.components.fragments.Content"
+        tools:ignore="Instantiatable" />
 
     <fragment android:layout_width="match_parent"
               android:layout_height="wrap_content"
               tools:layout="@layout/footer"
               android:layout_alignParentBottom="true"
-              class="ru.gui.components.fragments.Footer"/>
+              class="ru.gui.components.fragments.Footer"
+        tools:ignore="Instantiatable" />
 
 
     />

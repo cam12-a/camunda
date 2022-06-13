@@ -43,11 +43,11 @@ class WelcomeText: TextView {
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
 
-        val mycolor = mutableListOf<Int>(R.color.violet,R.color.blue,R.color.green,R.color.yellow,R.color.orange,R.color.red).toIntArray()
+        val mycolor = mutableListOf<Int>(R.color.violet2,R.color.blue21,R.color.white,R.color.blue22,R.color.blue24).toIntArray()
 
         val floatArray = ArrayList<Float>(mycolor.size)
         for (i in mycolor.indices) {
-            floatArray.add(i, 0.8f*i.toFloat() / (mycolor.size - 1))
+            floatArray.add(i, 0.95f*i.toFloat() / (mycolor.size - 1))
         }
         if(changed){
            paint.shader = LinearGradient(0f, 0f, width.toFloat(), height.toFloat(),
@@ -71,13 +71,11 @@ class WelcomeText: TextView {
 
     open fun welcomeColor(): ArrayList<Int> {
 
-        color.add(R.color.violet)
+        color.add(R.color.violet2)
         color.add(R.color.blue)
-        color.add(R.color.green)
-        color.add(R.color.yellow)
-        color.add(R.color.orange)
-        color.add(R.color.red)
-
+        color.add(R.color.white)
+        color.add(R.color.violet1)
+        color.add(R.color.violet3)
         return color
     }
 }

@@ -5,14 +5,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/registration"
-        android:background="@color/background"
+        android:background="@drawable/background"
         tools:context=".Registration">
 
     <fragment android:layout_width="match_parent"
               android:layout_height="wrap_content"
               tools:layout="@layout/header"
               android:layout_alignParentTop="true"
-              class="ru.gui.components.fragments.Header"/>
+              class="ru.gui.components.fragments.Header"
+        tools:ignore="Instantiatable" />
 
     <LinearLayout
             android:orientation="vertical"

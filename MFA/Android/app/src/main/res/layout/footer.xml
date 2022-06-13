@@ -15,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-
             android:orientation="vertical">
 
         <Button
@@ -23,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="@string/btn_push_code"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:visibility="visible"
                 android:layout_gravity="center"
                 tools:visibility="visible"

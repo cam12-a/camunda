@@ -10,9 +10,15 @@
     <color name="background">#FF8D8FCF</color>
 
 
-    <color name="violet">#5C790CE6</color>
-    <color name="blue">#0882F3</color>
+    <color name="violet1">#ad15ea</color>
+    <color name="violet2">#8423da</color>
+    <color name="violet3">#632ecd</color>
+    <color name="blue">#4839c4</color>
+    <color name="blue24">#00c2e5</color>
+    <color name="blue22">#03b3eb</color>
+    <color name="blue21">#00dddb</color>
     <color name="green">#39E813</color>
+
     <color name="yellow">#5CF3F300</color>
     <color name="orange">#FFEF7E09</color>
     <color name="red">#5cF10E0B</color>
