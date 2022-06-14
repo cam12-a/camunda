@@ -36,7 +36,7 @@
             android:background="@color/transparent"
             android:id="@+id/sing_in"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/black"
+            android:textColor="@color/blue22"
             android:text="Войти" />
 
         <com.google.android.material.button.MaterialButton
@@ -44,7 +44,7 @@
             android:layout_height="match_parent"
             android:background="@color/transparent"
             android:id="@+id/sing_out"
-            android:textColor="@color/black"
+            android:textColor="@color/blue22"
             android:layout_centerHorizontal="true"
             android:text="@string/registration"/>
 <!--

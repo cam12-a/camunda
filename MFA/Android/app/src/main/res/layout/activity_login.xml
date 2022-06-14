@@ -10,12 +10,14 @@
         tools:context=".Login">
 
     <fragment android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              tools:layout="@layout/header"
-              android:layout_alignParentTop="true"
-              android:name="ru.gui.components.fragments.Header"
-              class="ru.gui.components.fragments.Header"
+        android:layout_height="wrap_content"
+        android:id="@+id/header_login"
+        tools:layout="@layout/header"
+        android:layout_alignParentTop="true"
+        android:name="ru.gui.components.fragments.Header"
+        class="ru.gui.components.fragments.Header"
         tools:ignore="Instantiatable" />
+
 
     <LinearLayout
         android:id="@+id/login_form"
@@ -31,10 +33,10 @@
             android:layout_marginBottom="20dp"
             android:drawableLeft="@drawable/ic_baseline_person_24"
             android:drawablePadding="20dp"
-
             android:ems="10"
             android:hint="логин"
             android:inputType="textPersonName"
+            android:textColor="@color/white"
             android:textColorHint="@color/white" />
 
         <EditText
@@ -46,21 +48,20 @@
             android:ems="10"
             android:hint="пароль"
             android:inputType="textPassword"
+            android:textColor="@color/white"
             android:textColorHint="@color/white" />
 
-        <Spinner
-            android:id="@+id/company_list"
-            style="@style/Widget.AppCompat.Spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_spinner"
-            android:paddingLeft="10dp"
-            android:popupBackground="@color/background"
-            android:prompt="@string/spinner_title"
-            android:tooltipText="@string/spinner_title"
-            android:visibility="visible"
-            tools:visibility="visible" />
 
+        <Spinner
+            android:popupElevation="@dimen/cardview_compat_inset_shadow"
+            android:id="@+id/company_list"
+            android:theme="@style/textview_style"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/bg_spinner"
+            android:popupBackground="@color/violet1"
+            />
 
         <Button
             android:id="@+id/btn_sign_in"

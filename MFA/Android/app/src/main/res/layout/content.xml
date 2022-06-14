@@ -27,7 +27,6 @@
                 android:text="@string/welcomeMsg"
                 android:gravity="center"
                 android:visibility="visible"
-                android:textColor="@color/white"
                 tools:visibility="visible"
                 android:textAlignment="center"
                 android:textSize="25dp"

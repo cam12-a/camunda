@@ -67,7 +67,7 @@ open class SendRequestToNotificationServer(override var url: URL) : ConnexionTem
                             .use { it.readText() }  // defaults to UTF-8
                         val job2= async(Dispatchers.Default){
                             Log.d(TAG,"Pretty Printed JSON : $response")
-                            val jObject =  JSONObject(response)
+                           // val jObject =  JSONObject(response)
 
                         }
                       job2.await()

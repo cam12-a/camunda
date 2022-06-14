@@ -9,19 +9,10 @@
         tools:context=".MainActivity">
 
     <fragment
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/header"
-            tools:layout="@layout/header"
-            class="ru.gui.components.fragments.Header"
-        tools:ignore="Instantiatable" />
-
-    <fragment
         android:id="@+id/fragment_activity_login_registration"
         class="ru.gui.components.fragments.FragmentLoginRegistration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/header"
         android:layout_centerInParent="true"
         tools:ignore="Instantiatable"
         tools:layout="@layout/activity_login_registration" />

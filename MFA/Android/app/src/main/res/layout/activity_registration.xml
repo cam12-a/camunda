@@ -15,6 +15,7 @@
               class="ru.gui.components.fragments.Header"
         tools:ignore="Instantiatable" />
 
+
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"

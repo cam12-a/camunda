@@ -8,9 +8,10 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import ru.gui.services.Logout
 import java.util.concurrent.Executor
 
-class FingerActivity : AppCompatActivity() {
+class FingerActivity : AppCompatActivity(), Logout {
 
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
@@ -22,8 +23,20 @@ class FingerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finger)
         executor = ContextCompat.getMainExecutor(this)
+        fingerPrint()
+        logoutBtn(this@FingerActivity,findViewById(R.id.logout_icon))
 
-        //sendQRCodeToServer.createConnexion(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    private fun fingerPrint(){
 
         biometricPrompt = BiometricPrompt(this, executor,
             object : BiometricPrompt.AuthenticationCallback() {
@@ -48,7 +61,7 @@ class FingerActivity : AppCompatActivity() {
                     var intent: Intent = Intent(this@FingerActivity,ScannerActivity::class.java)
                     startActivity(intent)
 
-                   // fingerPrintValidation.analyze()
+                    // fingerPrintValidation.analyze()
 
                 }
 
@@ -70,12 +83,7 @@ class FingerActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 
-    override fun onPause() {
-        super.onPause()
-    }
+
 
 }

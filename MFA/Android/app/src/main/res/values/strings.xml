@@ -17,4 +17,6 @@
     <string name="channel_description">Вы получите код для подверждения операцию, нажимите пожалуйста на кнопку открыть</string>
     <string name="wargning">К вашей учетке пытались получить доступ, если это вы, то нажимайте кнопку да,
     При нажатии на да, вам придется залогиниться еще раз а затем вести кодовое слово</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

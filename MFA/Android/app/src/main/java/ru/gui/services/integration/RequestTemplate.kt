@@ -74,7 +74,7 @@ open class  RequestTemplate(override var url: URL) : ConnexionTemplate {
                     ) // The format of the content we're sending to the server
                     httpURLConnection.setRequestProperty("Accept", "application/json")
 
-                    httpURLConnection.connect()
+                    //httpURLConnection.connect()
                     Log.d(TAG,"json $jsonData")
                     // Send the JSON we created
                     val outputStreamWriter = OutputStreamWriter(httpURLConnection.outputStream)
@@ -105,7 +105,6 @@ open class  RequestTemplate(override var url: URL) : ConnexionTemplate {
                         }
 
                         job2.await()
-
 
                     }
                     else {
