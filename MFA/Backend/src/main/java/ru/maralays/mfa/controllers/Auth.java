@@ -52,6 +52,7 @@ public class Auth {
 
     @PostMapping(value = "/login/",consumes= {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<AuthModel> singIn(@RequestBody Users users, HttpServletResponse responseHeaders, HttpServletRequest request) throws Throwable {
+
         TokenGenerator tokenGenerator=new TokenGenerator();
         Users user=usersDAO.userByUsernameAndPassword(users.getUsername(),users.getPassword());
 
@@ -80,12 +81,10 @@ public class Auth {
             }
 
 
-
-
-
-            if(userHaveSessionOpenOnMobile(user)){
+            if(!userHaveSessionOpenOnMobile(user,"refresh_token") && userHaveSessionOpenOnMobile(user,"access_token")){
                 return new ResponseEntity<>(new AuthModel(new ResponseModel("you have an opened connection",user),access_token), HttpStatus.OK);
             }
+
 
             usersTokensDAO.saveWithInitialization(user,tokenTypeDAO.getTokenTypeByName("access_token"),tokenGenerator.getDEFAULT_EXPIRATION_TIME_ACCESS_TOKEN(),access_token,users.getIdFirebaseMessagingCloud());
 
@@ -129,27 +128,33 @@ public class Auth {
         UsersTokens usersTokens1=usersTokensDAO.findByUserTokenAndTokenTypeOrderById(user,tokenTypeDAO.getTokenTypeByName("refresh_token"));
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         usersTokens1.setExpireTime(formatter.format(new Date()));
-        if(usersTokensDAO.saveTokens(usersTokens1)!=null)
+        if(usersTokensDAO.saveTokens(usersTokens1)!=null){
+            usersTokens1=usersTokensDAO.findByUserTokenAndTokenTypeOrderById(user,tokenTypeDAO.getTokenTypeByName("access_token"));
+            formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            usersTokens1.setExpireTime(formatter.format(new Date()));
+            usersTokensDAO.saveTokens(usersTokens1);
+
             return new ResponseEntity<>("logout successful",HttpStatus.OK);
+        }
         else
             return new ResponseEntity<>("error while doing logout",HttpStatus.OK);
 
     }
 
 
-    public Boolean userHaveSessionOpenOnMobile(Users users) throws ParseException {
+    public Boolean userHaveSessionOpenOnMobile(Users users, String tokenTypes) throws ParseException {
         TokenGenerator tokenGenerator=new TokenGenerator();
-        TokenType tokenType=tokenTypeDAO.getTokenTypeByName("refresh_token");
+        TokenType tokenType=tokenTypeDAO.getTokenTypeByName(tokenTypes);
         UsersTokens token=usersTokensDAO.findByUserTokenAndTokenTypeOrderById(users,tokenType);
         log.info("token info "+token.getToken()+" date "+token.getExpireTime());
         Long expireTimeString=Long.parseLong(tokenGenerator.getClaimFromToken(token.getToken(),"exp"));
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+       // SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
         if(token!=null){
-            if(new Date(expireTimeString*1000).getTime()<new Date().getTime()){
-               return false;
+            if(new Date(expireTimeString*1000).getTime()<=new Date().getTime()){
+              return true;
             }
         }
-       return true;
+       return false;
     }
 }

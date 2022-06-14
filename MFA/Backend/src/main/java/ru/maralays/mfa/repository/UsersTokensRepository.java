@@ -11,4 +11,5 @@ public interface UsersTokensRepository extends JpaRepository<UsersTokens,Long> {
     List<UsersTokens> findByUserToken(Users user);
     UsersTokens findByUserTokenAndTokenTypeAndExpireTime(Users user, TokenType tokenType, String expireTime);
     List<UsersTokens> findByUserTokenAndTokenTypeOrderByIdDesc(Users user,TokenType tokenType);
+
 }

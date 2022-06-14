@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import ru.gui.dataBaseService.Database
 import ru.gui.services.CheckDevice
+import ru.gui.services.Logout
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,19 +25,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
         setContentView(R.layout.activity_main)
+
+
+
         var database = Database()
         //database.getExtraConnection()
         val biometricManager = BiometricManager.from(this)
         findViewById<Button>(R.id.sing_in).setOnClickListener {
             checkSupportedDeviceSecurity = CheckDevice()
             checkSupportedDeviceSecurity.checkDeviceSecurity(biometricManager)
-
-
-
 
             var intent = Intent(this,Login::class.java)
             startActivity(intent)

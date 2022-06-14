@@ -1,11 +1,13 @@
 package ru.gui
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import ru.gui.services.Logout
@@ -19,10 +21,14 @@ class FingerActivity : AppCompatActivity(), Logout {
     private val TAG="Mylog"
 
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finger)
         executor = ContextCompat.getMainExecutor(this)
+        if(loadCredential(this@FingerActivity)==null){
+            startActivity(Intent(this@FingerActivity,Login::class.java))
+        }
         fingerPrint()
         logoutBtn(this@FingerActivity,findViewById(R.id.logout_icon))
 

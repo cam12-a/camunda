@@ -2,8 +2,10 @@ package ru.gui.services
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import ru.gui.MainActivity
 import ru.gui.services.integration.RequestTemplate
 import ru.gui.services.integration.SendRequestToNotificationServer
@@ -25,9 +27,11 @@ open interface Logout {
         return acccess_token
 
     }
+    @RequiresApi(Build.VERSION_CODES.N)
     open fun logoutBtn(context: Context, imageView: ImageView){
         imageView.setOnClickListener {
             logout(context,loadCredential(context))
+            context.applicationContext.deleteSharedPreferences("Credential")
             context.startActivity(Intent(context,MainActivity::class.java))
             Log.e("Mylog","logout ok")
         }

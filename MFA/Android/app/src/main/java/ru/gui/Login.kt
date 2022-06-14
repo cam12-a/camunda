@@ -21,13 +21,14 @@ import ru.gui.dataBaseService.Database
 import ru.gui.entity.Company
 import ru.gui.services.CheckDevice
 import ru.gui.services.GoBack
+import ru.gui.services.Logout
 import ru.gui.services.integration.RequestTemplate
 import ru.gui.services.integration.SendCredentialToServer
 import ru.gui.services.integration.SendRequestToNotificationServer
 import java.net.URL
 
 
-class Login : AppCompatActivity(), GoBack {
+class Login : AppCompatActivity(), GoBack, Logout {
 
     private lateinit var checkSupportedDeviceSecurity: CheckDevice
     private lateinit var  mDataBase: Database
@@ -50,6 +51,9 @@ class Login : AppCompatActivity(), GoBack {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        if(loadCredential(this@Login)!=null){
+            startActivity(Intent(this@Login,FingerActivity::class.java))
+        }
 
         getAllCompany().get().addOnSuccessListener {
             if(!it.isEmpty)

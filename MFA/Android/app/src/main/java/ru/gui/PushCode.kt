@@ -1,6 +1,7 @@
 package ru.gui
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,9 @@ class PushCode : AppCompatActivity(), Logout {
         setContentView(R.layout.activity_push_code)
         var getIntentData = intent
         Log.d(TAG,"link to send "+getIntentData.getStringExtra("link").toString())
+        if(loadCredential(this@PushCode)==null){
+            startActivity(Intent(this@PushCode,Login::class.java))
+        }
 
         val token: String?=loadCredential(this)
         findViewById<Button>(R.id.killSession).setOnClickListener {

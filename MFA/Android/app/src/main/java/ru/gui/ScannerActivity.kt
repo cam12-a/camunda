@@ -1,6 +1,7 @@
 package ru.gui
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -10,10 +11,11 @@ import android.util.Log
 import android.widget.Toast
 import me.dm7.barcodescanner.zbar.Result
 import me.dm7.barcodescanner.zbar.ZBarScannerView
+import ru.gui.services.Logout
 import ru.gui.services.integration.SendQRCodeToServer
 import java.net.URL
 
-class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
+class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler, Logout {
 
     private val PERMISSION_CODE = 1000;
     private val IMAGE_CAPTURE_CODE = 1001
@@ -22,6 +24,10 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if(loadCredential(this@ScannerActivity)==null){
+            startActivity(Intent(this@ScannerActivity,Login::class.java))
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if (checkSelfPermission(Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_DENIED ||
