@@ -27,6 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:background="@color/transparent"
+            android:shadowDx="@integer/google_play_services_version"
+            android:shadowDy="@integer/google_play_services_version"
             android:layout_below="@+id/header_login"
             android:textColor="@color/white"
             android:editable="false"

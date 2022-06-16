@@ -1,5 +1,7 @@
 server:
   port: 8085
+  address: 0.0.0.0
+
 app:
   firebase-configuration-file: maralays-7544a-firebase-adminsdk-9yc6i-e1058889da.json
 
@@ -23,3 +25,5 @@ spring:
     user:
       name: user
       password: password
+spring.mobile.devicedelegatingviewresolver.enabled: true
+spring.mobile.sitepreference.enabled: true

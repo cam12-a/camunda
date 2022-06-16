@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.help -> {
+                    startActivity(Intent(this@MainActivity,AppHelp::class.java))
                     true
                 }
                 R.id.agreement -> {

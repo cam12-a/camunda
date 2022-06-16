@@ -29,6 +29,9 @@
         android:theme="@style/Theme.MarAlAys"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".AppHelp"
+            android:exported="false" />
+        <activity
             android:name=".Feedback"
             android:exported="false" />
         <activity

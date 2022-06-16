@@ -23,4 +23,13 @@
     При нажатии на да, вам придется залогиниться еще раз а затем вести кодовое слово</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="expandable_text">Интсрукция по использованию приложение\n
+    1. Ввод логин и пароля\n
+    2. Сканирование отпечатки палец\n
+    3. Сканирование QR-code который отображено на web странице\n
+    4. При правильной QR-code вы получите доступ к сервису</string>
+    <string name="feedback_info">Возникли проблемы, пишите нам: \n
+        Нажимите на кнопка сообщить о проблеме
+    </string>
 </resources>

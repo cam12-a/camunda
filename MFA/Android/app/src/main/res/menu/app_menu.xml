@@ -5,14 +5,18 @@
         android:icon="@drawable/feedback_50"
         android:title="@string/feedback"
         />
+
     <item android:id="@+id/help"
         android:icon="@drawable/help_50"
         android:title="@string/help" />
+
     <item android:id="@+id/agreement"
         android:icon="@drawable/agreement_50"
         android:title="@string/agreement" />
+
     <item android:id="@+id/setting"
         android:icon="@drawable/setting_50"
         android:title="@string/setting"
         />
+
 </menu>

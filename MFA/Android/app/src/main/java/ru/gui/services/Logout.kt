@@ -14,7 +14,7 @@ import java.net.URL
 open interface Logout {
 
     open fun logout(context: Context ,token: String?){
-        val url = URL("http://172.31.208.1:8085/api/auth/logout/")
+        val url = URL("http://172.17.158.45:8085/api/auth/logout/")
         val requestTemplate= RequestTemplate(url)
         val sendRequestToNotificationServer = SendRequestToNotificationServer(url)
         //sendRequestToNotificationServer.token=token3q

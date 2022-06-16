@@ -6,12 +6,14 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
+import androidx.core.widget.doAfterTextChanged
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -48,6 +50,11 @@ class Login : AppCompatActivity(), GoBack, Logout, CompanyData {
     private lateinit var sp: SharedPreferences
     private lateinit var biometricManager :BiometricManager
 
+    private lateinit var username: TextView
+    private lateinit var password: TextView
+    private lateinit var sign_in_btn: Button
+    private var disable_sign_in_btn=0
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,10 +64,15 @@ class Login : AppCompatActivity(), GoBack, Logout, CompanyData {
         setContentView(R.layout.activity_login)
         context=this
         spinner=findViewById(R.id.company_list)
+        username=findViewById<TextView>(R.id.username)
+        password=findViewById<TextView>(R.id.password)
+        sign_in_btn=findViewById<Button>(R.id.btn_sign_in)
+       // sign_in_btn.isEnabled=false
 
-        if(loadCredential(this@Login)!=null){
+
+        /*if(loadCredential(this@Login)!=null){
             startActivity(Intent(this@Login,FingerActivity::class.java))
-        }
+        }*/
 
         getAllCompany().get().addOnSuccessListener {
             if(!it.isEmpty)
@@ -93,73 +105,7 @@ class Login : AppCompatActivity(), GoBack, Logout, CompanyData {
 
 
 
-    /*
 
-    private fun getAllCompany() : Query {
-        return FirebaseFirestore.getInstance().collection("company")
-    }
-
-
-    private fun companyExist(name: String, query: Query): Boolean{
-        //return name in fillDropdownCompanyLis(query)
-        return true
-    }
-
-    private fun getCompanyInfo(name: String):   Query {
-
-        var db = FirebaseFirestore.getInstance()
-        return  db.collection("company").whereEqualTo("companyName",name)
-    }
-
-
-    private fun fillDropdownCompanyLis(querySnapshot: QuerySnapshot): ArrayList<String> {
-
-        val spinner: Spinner = findViewById(R.id.company_list)
-
-        var items = ArrayList<String>()
-
-        querySnapshot.forEach {
-            if(it.exists()){
-                items.add(it.data["companyName"].toString())
-            }
-        }
-        var arrayAdapter = ArrayAdapter<String>(
-           this,
-            android.R.layout.simple_spinner_dropdown_item,
-            items)
-        spinner.adapter=arrayAdapter
-
-        Log.i(TAG,"selected item id  ${spinner.selectedItemId} selected item ${spinner.selectedItem}")
-        return items
-    }
-
-    private fun selectedCompany(){
-        val spinner: Spinner = findViewById(R.id.company_list)
-        spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                Log.e("Mylog","nothing")
-                Toast.makeText(this@Login,spinner.selectedItem.toString()+" "+spinner.selectedItemId.toString(),Toast.LENGTH_SHORT)
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Log.e("Mylog",spinner.selectedItem.toString()+" "+spinner.selectedItemId.toString())
-
-                (view as TextView).setTextColor(Color.WHITE)
-                getCompanyInfo(spinner.selectedItem.toString()).get().addOnSuccessListener {
-                   it.forEach {  r->
-                       Log.d(TAG,"Link "+r.data["companyLinkToAuthenticatorAPI"].toString())
-                       companyLink=r.data["companyLinkToAuthenticatorAPI"].toString()
-                   }
-                }
-
-            }
-
-        }
-
-    }
-
-
-     */
     fun saveCredential(token: String){
         val sharedPreferences= getSharedPreferences("Credential", Context.MODE_PRIVATE)
         val editor =sharedPreferences.edit()
@@ -176,7 +122,10 @@ class Login : AppCompatActivity(), GoBack, Logout, CompanyData {
     }
 
     private fun login(){
-        findViewById<Button>(R.id.btn_sign_in).setOnClickListener {
+
+
+
+        sign_in_btn.setOnClickListener {
             lateinit var intent: Intent
             println(checkSupportedDeviceSecurity.checkDeviceSecurity(biometricManager))
             when(checkSupportedDeviceSecurity.checkDeviceSecurity(biometricManager)){
@@ -230,7 +179,7 @@ class Login : AppCompatActivity(), GoBack, Logout, CompanyData {
                     Log.d(TAG,"IN LOGIN ELSE $sendRequest")
                     Toast.makeText(this@Login,"Логин или пароль не верны либо у вас открыто уже приложение", Toast.LENGTH_SHORT).show()
 
-                    val url = URL("http://172.31.208.1:8085/api/auth/login/")
+
                     val requestTemplate= RequestTemplate(url)
                     val sendRequestToNotificationServer = SendRequestToNotificationServer(url)
                     //sendRequestToNotificationServer.token=token
