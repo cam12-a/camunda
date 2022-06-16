@@ -89,15 +89,19 @@ public class Auth {
                 }
 
 
-                if(userHaveSessionOpenOnMobile(user,"refresh_token")){
+               if(userHaveSessionOpenOnMobile(user,"refresh_token")){
                     return new ResponseEntity<>(new AuthModel(new ResponseModel("you have an opened connection",user),access_token), HttpStatus.OK);
                 }
+
+
             }
             else{
                 users.setIdFirebaseMessagingCloud("");
             }
 
             usersTokensDAO.saveWithInitialization(user,tokenTypeDAO.getTokenTypeByName("access_token"),tokenGenerator.getDEFAULT_EXPIRATION_TIME_ACCESS_TOKEN(),access_token,users.getIdFirebaseMessagingCloud());
+
+            tokenGenerator=new TokenGenerator();
 
             String refresh_token=tokenGenerator.generateToken(user,"refresh_token",tokenGenerator.getDEFAULT_EXPIRATION_TIME_REFRESH_TOKEN());
 
@@ -162,7 +166,7 @@ public class Auth {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
         if(token!=null){
-            if(new Date(expireTimeString*1000).getTime()<=formatter.parse(token.getExpireTime()).getTime()){
+            if(new Date(expireTimeString*1000).getTime()>=new Date().getTime()){
               return true;
             }
         }
