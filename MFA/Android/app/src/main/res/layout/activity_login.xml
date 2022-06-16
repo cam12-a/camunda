@@ -53,7 +53,8 @@
 
 
         <Spinner
-            android:popupElevation="@dimen/cardview_compat_inset_shadow"
+
+            android:elevation="10dp"
             android:id="@+id/company_list"
             android:theme="@style/textview_style"
             android:layout_width="fill_parent"

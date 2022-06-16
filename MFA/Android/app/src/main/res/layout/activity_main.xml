@@ -8,6 +8,11 @@
         android:id="@+id/mainLayout"
         tools:context=".MainActivity">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        />
+
     <fragment
         android:id="@+id/fragment_activity_login_registration"
         class="ru.gui.components.fragments.FragmentLoginRegistration"

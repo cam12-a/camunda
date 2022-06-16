@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background"
+
+    tools:context=".Feedback">
+
+
+    <fragment
+        android:id="@+id/header_login"
+        android:name="ru.gui.components.fragments.Header"
+        class="ru.gui.components.fragments.Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        tools:ignore="Instantiatable"
+        tools:layout="@layout/header" />
+
+
+
+    <EditText
+            android:id="@+id/feedback_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@color/transparent"
+            android:layout_below="@+id/header_login"
+            android:textColor="@color/white"
+            android:editable="false"
+            />
+
+
+    <Spinner
+        android:popupElevation="10dp"
+        android:elevation="5dp"
+        android:id="@+id/company_list"
+        android:theme="@style/textview_style"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/feedback_info"
+        android:background="@drawable/bg_spinner"
+        android:popupBackground="@color/violet1"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:layout_below="@id/company_list"
+        android:id="@+id/subjectIssue"
+        android:textColor="@color/white"
+        android:hint="Причина"
+        />
+
+        <EditText
+            android:id="@+id/feedback_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/subjectIssue"
+            android:background="@color/transparent"
+            android:maxLines="5"
+            android:isScrollContainer="true"
+            android:scrollbars="vertical"
+            android:maxLength="255"
+            android:textColor="@color/white"
+            android:hint="короткое описание прблемы"
+            />
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue22"
+            android:layout_centerVertical="true"
+            android:text="Отправить"
+            android:background="@color/transparent"
+            android:id="@+id/send_feedback_btn"
+            android:layout_below="@+id/feedback_text"
+            android:layout_alignParentRight="true"
+
+            />
+
+
+
+</RelativeLayout>

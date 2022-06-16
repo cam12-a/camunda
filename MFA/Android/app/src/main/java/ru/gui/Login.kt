@@ -20,6 +20,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import ru.gui.dataBaseService.Database
 import ru.gui.entity.Company
 import ru.gui.services.CheckDevice
+import ru.gui.services.CompanyData
 import ru.gui.services.GoBack
 import ru.gui.services.Logout
 import ru.gui.services.integration.RequestTemplate
@@ -28,7 +29,7 @@ import ru.gui.services.integration.SendRequestToNotificationServer
 import java.net.URL
 
 
-class Login : AppCompatActivity(), GoBack, Logout {
+class Login : AppCompatActivity(), GoBack, Logout, CompanyData {
 
     private lateinit var checkSupportedDeviceSecurity: CheckDevice
     private lateinit var  mDataBase: Database
@@ -36,8 +37,12 @@ class Login : AppCompatActivity(), GoBack, Logout {
     private
     var firebaseMC=""
     var dataFireBase = FirebaseDatabase.getInstance().getReference("companyInfo")
-    private var companyLink=""
-    get() {return field}
+    override var companyLink=""
+        get() {return field}
+    override lateinit var context: Context
+    override lateinit var  spinner: Spinner
+    override var companyEmail=""
+        get() {return field}
 
 
     private lateinit var sp: SharedPreferences
@@ -50,6 +55,8 @@ class Login : AppCompatActivity(), GoBack, Logout {
         biometricManager = BiometricManager.from(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        context=this
+        spinner=findViewById(R.id.company_list)
 
         if(loadCredential(this@Login)!=null){
             startActivity(Intent(this@Login,FingerActivity::class.java))
@@ -61,7 +68,7 @@ class Login : AppCompatActivity(), GoBack, Logout {
             Log.e(TAG,"IN CREATE "+fillDropdownCompanyLis(it).toString())
         }
 
-        selectedCompany()
+        selectedCompany(this)
         Log.d(TAG,"companyLink $companyLink")
 
         login()
@@ -85,27 +92,8 @@ class Login : AppCompatActivity(), GoBack, Logout {
     }
 
 
-    private fun createCompany() {
-        mDataBase = Database()
-        var mcompany: Company = Company("Alpha Bank", "http://172.17.122.162:8080/api/user/fibank/")
-        var company: HashMap<String, String> = HashMap()
-        company["companyName"] = mcompany.companyName
-        company["companyLinkToAuthenticatorAPI"] = mcompany.companyLinkToAuthenticatorAPI
 
-        val query=getAllCompany()
-        //Log.e(TAG,"COMPANY LIST"+ fillDropdownCompanyLis(getAllCompany()).toString())
-        Log.e(TAG,"Exits "+companyExist(mcompany.companyName,query).toString())
-        query.get().addOnSuccessListener {
-            if(companyExist(mcompany.companyName,query)) {
-
-            }
-
-        }
-
-        Log.d("Mylog", "saving data ${mcompany.toString()}")
-        //companyExist()
-    }
-
+    /*
 
     private fun getAllCompany() : Query {
         return FirebaseFirestore.getInstance().collection("company")
@@ -170,6 +158,8 @@ class Login : AppCompatActivity(), GoBack, Logout {
 
     }
 
+
+     */
     fun saveCredential(token: String){
         val sharedPreferences= getSharedPreferences("Credential", Context.MODE_PRIVATE)
         val editor =sharedPreferences.edit()

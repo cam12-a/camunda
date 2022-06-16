@@ -14,6 +14,10 @@
     <string name="registration">Регистрироваться</string>
     <string name="channel_name">MARALAYSSECURITY</string>
     <string name="spinner_title">Выберите компанию</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="help">Помощь</string>
+    <string name="setting">Настройка</string>
+    <string name="agreement">Правила использования</string>
     <string name="channel_description">Вы получите код для подверждения операцию, нажимите пожалуйста на кнопку открыть</string>
     <string name="wargning">К вашей учетке пытались получить доступ, если это вы, то нажимайте кнопку да,
     При нажатии на да, вам придется залогиниться еще раз а затем вести кодовое слово</string>

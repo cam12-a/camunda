@@ -5,10 +5,10 @@ import android.content.Intent
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.Toast
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import com.google.firebase.database.DataSnapshot
@@ -27,11 +27,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setSupportActionBar(findViewById(R.id.toolbar))
+
 
 
         var database = Database()
         //database.getExtraConnection()
         val biometricManager = BiometricManager.from(this)
+
         findViewById<Button>(R.id.sing_in).setOnClickListener {
             checkSupportedDeviceSecurity = CheckDevice()
             checkSupportedDeviceSecurity.checkDeviceSecurity(biometricManager)
@@ -40,6 +43,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
 
         }
+
         findViewById<Button>(R.id.sing_out).setOnClickListener {
 
             var intent= Intent(this, Registration::class.java)
@@ -47,7 +51,34 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        //super.onCreateOptionsMenu(menu)
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.app_menu , menu)
 
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+                R.id.feedback -> {
+                    startActivity(Intent(this@MainActivity,Feedback::class.java))
+                    true
+                }
+                R.id.help -> {
+                    true
+                }
+                R.id.agreement -> {
+                    true
+                }
+                R.id.setting -> {
+                    true
+                }
+            else -> super.onOptionsItemSelected(item)
+        }
+
+        }
 
     override fun onPause() {
         super.onPause()
