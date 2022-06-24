@@ -1,4 +1,0 @@
-MFA this is a full project that provides a secure authentication process to a web service. The project is  a mobile application for Android OS with multi-factor authentication, support for QR CODE, biometrics and integration with a web application.
-This application will increase the level of security through the use of QR CODE (password-free login policy), biometrics and the concept of only one session.
-For testing purposes in develop a web site (backend and frontend). The backend is developed with Java, SpringBoot, SpringData JPA from backend I send the push authentication by integrating a Firebase Messaging Cloud. 
-![img.png](img.png)

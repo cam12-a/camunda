@@ -1,17 +1,21 @@
 package ru.maralays.mfa.service.mobileIntegration;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import ru.maralays.mfa.Entity.MobileDetectionEntity;
+import ru.maralays.mfa.Entity.Users;
 import ru.maralays.mfa.Model.PushNotificationRequest;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class SendRequest {
 
     private PushNotificationRequest pushModel;
+    private Object users;
 
     public Mono<String> sendNotification(String url){
         WebClient webClient = WebClient.create();
@@ -23,22 +27,16 @@ public class SendRequest {
                 .bodyToMono(String.class);
     }
 
-
-    public Mono<MobileDetectionEntity> getRequest(String url){
+    public Mono<Object> postRequest(String url){
         WebClient webClient=WebClient.create();
-        return webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/api/mobile/detect/")
-                        .queryParam("normal",true)
-                        .queryParam("devicePlatform", "IOS")
-                        .queryParam("mobile",true)
-                        .queryParam("tablet",true)
-                        .port(8085)
-                        .host("172.17.158.45")
-                        .scheme("http")
-                        .build())
-                .retrieve().bodyToMono(MobileDetectionEntity.class);
+        return webClient.post()
+                .uri(url)
+                .body(Mono.just(users),Object.class)
+                .retrieve()
+                .bodyToMono(Object.class);
     }
+
+
 
 
 
